@@ -7,10 +7,7 @@ require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome = $_POST['nome'];
     $email = $_POST['email'];
-    $telefone = $_POST['telefone'];
-    $assunto = $_POST['assunto'];
     $mensagem = $_POST['mensagem'];
 
     $mail = new PHPMailer(true);
@@ -26,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Port = 587;
 
         // Destinatário
-        $mail->setFrom($email, $nome);
+        $mail->setFrom($email);
         $mail->addAddress('gilneycriative@gmail.com'); // Seu e-mail para receber as mensagens
 
         // Conteúdo
         $mail->isHTML(true);
-        $mail->Subject = $assunto;
-        $mail->Body = "Nome: $nome<br>Email: $email<br>Telefone: $telefone<br><br>Mensagem:<br>$mensagem";
+        $mail->Subject = 'Nova Mensagem de Contato';
+        $mail->Body = "Email: $email<br><br>Mensagem:<br>$mensagem";
 
         $mail->send();
         echo 'Mensagem enviada com sucesso!';
