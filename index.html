@@ -2,281 +2,305 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Futurístico</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        
-        body {
-            font-family: 'Orbitron', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: #00ff9f;
-            overflow-x: hidden;
-        }
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: black;
-            z-index: -1;
-        }
-        header, section {
-            padding: 50px 20px;
-            text-align: center;
-        }
-        header {
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid #00ff9f;
-            box-shadow: 0 0 20px #00ff9f;
-            z-index: 1;
-        }
-        header h1 {
-            margin: 0;
-        }
-        .project {
-            margin: 20px 0;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 20px #00ff9f;
-        }
-        .project h3 {
-            margin-top: 0;
-        }
-        .float-image {
-            width: 50px; /* Tamanho ajustável */
-            position: absolute;
-            top: 20%;
-            right: 10%; /* Posição ajustada para o lado direito */
-            transform: translate(-50%, -20%);
-            animation: float 3s infinite;
-        }
-        @keyframes float {
-            0% {
-                transform: translate(-50%, -20%);
-            }
-            50% {
-                transform: translate(-50%, -30%);
-            }
-            100% {
-                transform: translate(-50%, -20%);
-            }
-        }
-        form {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px #00ff9f;
-            position: relative;
-            z-index: 1;
-            max-width: 400px;
-            margin: 100px auto;
-            color: #00ff9f;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 2px solid #00ff9f;
-            border-radius: 5px;
-            background: transparent;
-            color: #00ff9f;
-            font-family: 'Orbitron', sans-serif;
-        }
-        input::placeholder, textarea::placeholder {
-            color: #00ff9f;
-        }
-        button {
-            background: #00ff9f;
-            color: #000;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: bold;
-        }
-        button:hover {
-            background: #00e68a;
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3.2.0/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() {
-            emailjs.init("gilnei@grupobrisanet.com.br"); // Substitua pelo seu User ID do EmailJS
-        })();
-    </script>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <title>Gilnei Laurindo</title>
+    
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-53VHVVM5MJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-53VHVVM5MJ');
+</script>
+    
+    <!-- swiper css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+    <!-- box icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- header design -->
+    <header class="header">
+        <a href="#" class="logo">Meu Portfólio</a>
+
+        <nav class="navbar">
+            <a href="#home" class="active">Inicio</a>
+            <a href="#about">Sobre</a>
+            <a href="#services">Serviços</a>
+            <a href="#portfolio">Portfólio</a>
+            <a href="#contact">Contato</a>
+        </nav>
+
+        <div class="bx bx-moon" id="darkMode-icon"></div>
+
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+
+    <!-- home section design -->
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Olá, sou </h3>
+            <h1>Gilnei Laurindo</h1>
+            <p>
+                Bem-vindo ao meu portfólio, onde a arte encontra a tecnologia
+                 para criar soluções criativas e inovadoras. Meu nome é Gilnei, 
+                 e sou apaixonado por transformar ideias em realidade através 
+                 da programação, design e produção audiovisual.
+            </p>
+            <p></p>
+
+          <div class="social-media">
+    <a href="https://www.instagram.com/gilneycriative/?igsh=MXR5YTlhcjZidDg4Yg%3D%3D"><i class='bx bxl-instagram-alt'></i></a>
+    <a href="https://www.linkedin.com/in/gilnei-laurindo/"><i class='bx bxl-linkedin'></i></a>
+    <a href="https://github.com/gilneilaurindo"><i class='bx bxl-github'></i></a>
+</div>
+
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+
+        <div class="profession-container">
+            <div class="profession-box">
+                <div class="profession" style="--i:0;">
+                    <i class='bx bx-broadcast'></i>
+                    <h3>Streamer</h3>
+                    </div>
+                <div class="profession" style="--i:1;">
+                    <i class='bx bxs-paint'></i>
+                    <h3>Design</h3>                   
+                </div>
+                <div class="profession" style="--i:2;">
+                    <i class='bx bx-video-recording'></i>
+                    <h3>Produção de Vídeo</h3>
+                </div>
+                <div class="profession" style="--i:3;">
+                    <i class='bx bx-code-alt'></i>
+                    <h3>Programação</h3>
+                </div>
+
+                <div class="circle"></div>
+            </div>
+
+            <div class="overlay"></div>
+        </div>
+
+        <div class="home-img">
+            <img src="images/home.png" alt="">
+        </div>
+    </section>
+
+    <!-- about section design -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="images/about.png" alt="">
+        </div>
+
+        <div class="about-content">
+            <h2 class="heading">Sobre <span>mim</span></h2>
+            <h3>
+                Atualmente, trabalho em uma empresa de telecomunicação,  
+                onde aplico minhas habilidades em design,
+                criação audiovisual e, ocasionalmente, web design. 
+            </h3>
+            <p>
+                Também sou estudante de Análise e Desenvolvimento
+                de Sistemas na UniCesumar, onde estou constantemente
+                primorando minhas competências em diversas tecnologias 
+                linguagens de programação.
+            </p>
+            <p>
+                Meu objetivo é continuar evoluindo como profissional, 
+                buscando sempre novas formas de inovar e aprender. 
+                Seja na criação de um design intuitivo, na edição 
+                de um vídeo envolvente, na transmissão de um evento 
+                ao vivo ou no desenvolvimento de um site funcional, 
+                estou aqui para transformar ideias em realidade.
+            </p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+    </section>
+
+   <!-- Seção de Serviços -->
+<section class="services" id="services">
+    <h2 class="heading">O Que <span>Eu Faço</span></h2>
+
+    <div class="services-container">
+        <div class="services-box">
+            <i class='bx bx-code-alt'></i>
+            <h3>Programação</h3>
+            <p>Desenvolvimento de soluções eficientes e funcionais.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+        <div class="services-box">
+            <i class='bx bxs-paint'></i>
+            <h3>Design</h3>
+            <p>Criação de interfaces intuitivas e esteticamente agradáveis.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+        <div class="services-box">
+            <i class='bx bx-video-recording'></i>
+            <h3>Produção de Vídeo</h3>
+            <p>Produção de vídeos cativantes para diversas plataformas.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+        <div class="services-box">
+            <i class='bx bx-broadcast'></i>
+            <h3>Streamer</h3>
+            <p>Organização e execução de eventos ao vivo com qualidade.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+    </div>
+</section>
+
+
+    <!-- portfolio section design -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="heading">Propostas <span> Comerciais</span></h2>
+
+        <div class="portfolio-container">
+            <div class="portfolio-box">
+                <img src="images/portfolio1.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio2.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio3.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio4.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio5.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio6.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- testimonial design -->
+    <div class="testimonial-container">
+        <h2 class="heading">Recomen<span>dações</span></h2>
+
+        <div class="testimonial-wrapper">
+            <div class="testimonial-box mySwiper">
+                <div class="testimonial-content swiper-wrapper">
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="images/testimonial1.jpg" alt="">
+                        <h3>Henrique Morais</h3>
+                        <p>Conheço o Gilney há bastante tempo. 
+                            Sem dúvidas, ele é um profissional de excelência, 
+                            desempenhando uma atividade de muita qualidade no segmento
+                             em que atua. No que diz respeito à análise, construção e
+                              entrega de conteúdos audiovisuais, ele é uma referência.</p>
+                    </div>
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="images/testimonial2.jpg" alt="">
+                        <h3>Wictor Morais</h3>
+                        <p>Conheço o Gilney, e detalhe o mesmo está no mundo Coporativo a anos.
+                             Gostaria de elogiar o design excepcional que se dedica a cada 
+                             projeto realizado. O trabalho destaca-se pela criatividade, 
+                             atenção aos detalhes e compreensão das necessidades do cliente. 
+                             A combinação de estética e funcionalidade resultou em um produto final impressionante.
+                              Parabéns pela dedicação e talento, que foram essenciais para o sucesso do projeto. Gil, tu arrasa!</p>
+                    </div>
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="" alt="">
+                        <h3></h3>
+                        <p>.</p>
+                    </div>
+                </div>
+
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+          
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="particles-js"></div>
-    <img src="imagens/float-image.webp" alt="Imagem Flutuante" class="float-image">
-    <header>
-        <h1>Gilnei Criative</h1>
-        <p>Designer, Programador e Editor de Vídeo</p>
-    </header>
-    <section id="about">
-        <h2>Sobre Mim</h2>
-        <p>Sou um profissional apaixonado por tecnologia e design, sempre buscando aprender e evoluir. Tenho experiência em design gráfico, desenvolvimento web e edição de vídeo.</p>
-    </section>
-    <section id="projects">
-        <h2>Projetos</h2>
-        <div class="project">
-            <h3>Projeto 1</h3>
-            <p>Descrição do Projeto 1. Detalhes e tecnologias utilizadas.</p>
-        </div>
-        <div class="project">
-            <h3>Projeto 2</h3>
-            <p>Descrição do Projeto 2. Detalhes e tecnologias utilizadas.</p>
-        </div>
-        <div class="project">
-            <h3>Projeto 3</h3>
-            <p>Descrição do Projeto 3. Detalhes e tecnologias utilizadas.</p>
-        </div>
-    </section>
-    <section id="contact">
-        <h2>Contato</h2>
-        <form id="formContato">
-            <input type="text" id="nome" placeholder="Seu nome" required>
-            <input type="email" id="email" placeholder="Seu email" required>
-            <textarea id="mensagem" placeholder="Sua mensagem" required></textarea>
-            <button type="submit">Enviar</button>
+    <!-- contact section design -->
+    <section class="contact" id="contact">
+        <h2 class="heading">Contact <span>Me!</span></h2>
+
+        <form method="post" action="enviar.php">
+            <div class="input-box">
+                <input type="email" name="email" placeholder="Email Address" required>
+            </div>
+            <textarea name="mensagem" cols="30" rows="10" placeholder="Your Message" required></textarea>
+            <input type="submit" value="Send Message" class="btn">
         </form>
     </section>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script>
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#00ff9f"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    }
-                },
-                "opacity": {
-                    "value": 0.5,
-                    "random": false,
-                    "anim": {
-                        "enable": false,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 3,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#00ff9f",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 6,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "repulse"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 400,
-                        "line_linked": {
-                            "opacity": 1
-                        }
-                    },
-                    "bubble": {
-                        "distance": 400,
-                        "size": 40,
-                        "duration": 2,
-                        "opacity": 8,
-                        "speed": 3
-                    },
-                    "repulse": {
-                        "distance": 200,
-                        "duration": 0.4
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    },
-                    "remove": {
-                        "particles_nb": 2
-                    }
-                }
-            },
-            "retina_detect": true
-        });
-    </script>
-    <script>
-        document.getElementById('formContato').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
-            const mensagem = document.getElementById('mensagem').value;
-
-            const templateParams = {
-                nome: nome,
-                email: email,
-                mensagem: mensagem,
-                para_email: "gilneycriative@gmail.com"
-            };
-
-            emailjs.send('SEU_SERVICE_ID_AQUI', 'SEU_TEMPLATE_ID_AQUI', templateParams)
-                .then(function(response) {
-                    console.log('Email enviado com sucesso!', response.status, response.text);
-                    alert(`Olá ${nome}, sua mensagem foi enviada com sucesso!`);
-                    document.getElementById('formContato').reset();
-                }, function(error) {
-                    console.error('Falha ao enviar o email:', error);
-                    alert('Houve um erro ao enviar sua mensagem. Tente novamente mais tarde.');
-                });
-        });
-    </script>
 </body>
+
+   <footer class="footer">
+        <div class="footer-text">
+            <p>© 2024 Gilnei Laurindo. Todos os direitos reservados.</p>
+        </div>
+    
+        <div class="footer-iconTop">
+            <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
+        </div>
+    </footer>
+
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- swiper js -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- custom js -->
+    <script src="js/script.js"></script>
+</body>
+
 </html>
