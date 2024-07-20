@@ -1,127 +1,295 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
- <head>
-	
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="Loop Nerd" content="Códigos Pronto" />
-    <meta name="description" content="Loop Nerd Códigos e sites pronto para você utilizar no seu negócio."/>
-    <meta name="keywords" content="Html, Css, Jquery, Wordpress, Sites Grátis, Tema para Wordpress, Site Responsivo"/>
-    <meta name="author" content="Loop Nerd" />
-    <meta name="URL" content="https://www.www.loopnerd.com"/>
-    <meta http-equiv="content-language" content="pt-br" />
-    <meta name="robots" content="index, follow"/>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <title>Gilnei Laurindo</title>
     
-    <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-    <![endif]-->       
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-53VHVVM5MJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/fonts-icones.css">
-    <link rel="shortcut icon" href="img/favicon.png" type="image/ico" />
+  gtag('config', 'G-53VHVVM5MJ');
+</script>
+    
+    <!-- swiper css -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
-	<title>Galeria/Gilnei Laurindo</title>
+    <!-- box icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
- </head>
+    <!-- custom css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
 <body>
-    
-<header class="main_header container">        
-    <div class="content">
-    
-        <div class="main_header_logo">
-            <a href="https://gilneilaurindo.github.io/"><img src="img/logo.png" alt="logo.png" title="Loop Nerd"/></a>
+
+    <!-- header design -->
+    <header class="header">
+        <a href="#" class="logo"></a>
+
+        <nav class="navbar">
+            <a href="#home" class="active">Inicio</a>
+            <a href="#about">Sobre</a>
+            <a href="#services">Serviços</a>
+            <a href="#portfolio">Portfólio</a>
+            <a href="#contact">Contato</a>
+        </nav>
+
+        <div class="bx bx-moon" id="darkMode-icon"></div>
+
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+
+    <!-- home section design -->
+    <section class="home" id="home">
+        <div class="home-content">
+            <h3>Olá, sou </h3>
+            <h1>Gilnei Laurindo</h1>
+            <p>
+                Bem-vindo ao meu portfólio, onde a arte encontra a tecnologia
+                 para criar soluções criativas e inovadoras. Meu nome é Gilnei, 
+                 e sou apaixonado por transformar ideias em realidade através 
+                 da programação, design e produção audiovisual.
+            </p>
+            <p></p>
+
+          <div class="social-media">
+    <a href="https://www.instagram.com/gilneycriative/?igsh=MXR5YTlhcjZidDg4Yg%3D%3D"><i class='bx bxl-instagram-alt'></i></a>
+    <a href="https://www.linkedin.com/in/gilnei-laurindo/"><i class='bx bxl-linkedin'></i></a>
+    <a href="https://github.com/gilneilaurindo"><i class='bx bxl-github'></i></a>
+</div>
+
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
         </div>
 
-    </div>
-</header>
-
-<main class="main_content container">
-
-        
-    <section class="section-seu-codigo container">
-        
-        <div class="content">
-                                
-            <h1 class="section_title"><i class="fab fa-github"></i>Proposta Comercial para Políticos</h1>
-            
-            <div class="box-galeria">
-                    
-                <div class="box-foto">
-                    <a href="uploads/foto1.jpg" rel="shadowbox[vocation]" title="Foto 1">
-                        <img src="uploads/foto1.jpg">
-                    </a>
+        <div class="profession-container">
+            <div class="profession-box">
+                <div class="profession" style="--i:0;">
+                    <i class='bx bx-broadcast'></i>
+                    <h3>Streamer</h3>
+                    </div>
+                <div class="profession" style="--i:1;">
+                    <i class='bx bxs-paint'></i>
+                    <h3>Design</h3>                   
+                </div>
+                <div class="profession" style="--i:2;">
+                    <i class='bx bx-video-recording'></i>
+                    <h3>Produção de Vídeo</h3>
+                </div>
+                <div class="profession" style="--i:3;">
+                    <i class='bx bx-code-alt'></i>
+                    <h3>Programação</h3>
                 </div>
 
-                <div class="box-foto">
-                    <a href="uploads/foto2.jpg" rel="shadowbox[vocation]" title="Foto 2">
-                        <img src="uploads/foto2.jpg">
-                    </a>
-                </div>
+                <div class="circle"></div>
+            </div>
 
-                <div class="box-foto">
-                    <a href="uploads/foto3.jpg" rel="shadowbox[vocation]" title="Foto 3">
-                        <img src="uploads/foto3.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto4.jpg" rel="shadowbox[vocation]" title="Foto 4">
-                        <img src="uploads/foto4.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto5.jpg" rel="shadowbox[vocation]" title="Foto 5">
-                        <img src="uploads/foto5.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto6.jpg" rel="shadowbox[vocation]" title="Foto 6">
-                        <img src="uploads/foto6.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto7.jpg" rel="shadowbox[vocation]" title="Foto 7">
-                        <img src="uploads/foto7.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto8.jpg" rel="shadowbox[vocation]" title="Foto 8">
-                        <img src="uploads/foto8.jpg">
-                    </a>
-                </div>
-
-            </div><!--Box Galeria-->
-
-
-        <div class="clear"></div>
+            <div class="overlay"></div>
         </div>
-    </section><!--FECHA BOX HTML-->
 
+        <div class="home-img">
+            <img src="images/home.png" alt="">
+        </div>
+    </section>
 
-</main>
+    <!-- about section design -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="images/about.png" alt="">
+        </div>
 
-<footer class="main_footer container">
-    <div class="main_footer_copy">
+        <div class="about-content">
+            <h2 class="heading">Sobre <span>mim</span></h2>
+            <h3>
+                Atualmente, trabalho em uma empresa de telecomunicação,  
+                onde aplico minhas habilidades em design,
+                criação audiovisual e, ocasionalmente, web design. 
+            </h3>
+            <p>
+                Também sou estudante de Análise e Desenvolvimento
+                de Sistemas na UniCesumar, onde estou constantemente
+                primorando minhas competências em diversas tecnologias 
+                linguagens de programação.
+            </p>
+            <p>
+                Meu objetivo é continuar evoluindo como profissional, 
+                buscando sempre novas formas de inovar e aprender. 
+                Seja na criação de um design intuitivo, na edição 
+                de um vídeo envolvente, na transmissão de um evento 
+                ao vivo ou no desenvolvimento de um site funcional, 
+                estou aqui para transformar ideias em realidade.
+            </p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+    </section>
 
-        <p class="m-b-footer"></p> 
-        <p class="by"><i class="icon icon-laptop"></i> Transformando Código, Vídeo e Lives em Arte</p>
-    
+   <!-- Seção de Serviços -->
+<section class="services" id="services">
+    <h2 class="heading">O Que <span>Eu Faço</span></h2>
+
+    <div class="services-container">
+        <div class="services-box">
+            <i class='bx bx-code-alt'></i>
+            <h3>Programação</h3>
+            <p>Desenvolvimento de soluções eficientes e funcionais.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+        <div class="services-box">
+            <i class='bx bxs-paint'></i>
+            <h3>Design</h3>
+            <p>Criação de interfaces intuitivas e esteticamente agradáveis.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+        <div class="services-box">
+            <i class='bx bx-video-recording'></i>
+            <h3>Produção de Vídeo</h3>
+            <p>Produção de vídeos cativantes para diversas plataformas.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
+        <div class="services-box">
+            <i class='bx bx-broadcast'></i>
+            <h3>Streamer</h3>
+            <p>Organização e execução de eventos ao vivo com qualidade.</p>
+            <a href="images/Site em Construção.jpg" class="btn">Saiba Mais</a>
+        </div>
     </div>
-</footer>
+</section>
 
-<script src="js/jquery.js"></script>
-<script src="js/script.js"></script>
 
-<link rel="stylesheet" type="text/css" href="js/shadowbox/shadowbox.css" />
-<script src="js/shadowbox/shadowbox.js"></script>
-<script src="js/shadowbox/script.shadowbox.js"></script>
+    <!-- portfolio section design -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="heading">Propostas <span> Comerciais</span></h2>
 
+        <div class="portfolio-container">
+            <div class="portfolio-box">
+                <img src="images/portfolio1.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="galeria 01/index.html"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio2.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="galeria 02/index.html"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio3.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="galeria 02/index.html"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio4.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio5.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+            <div class="portfolio-box">
+                <img src="images/portfolio6.jpg" alt="">
+
+                <div class="portfolio-layer">
+                    <h4></h4>
+                    <p></p>
+                    <a href="images/Site em Construção.jpg"><i class='bx bx-link-external'></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- testimonial design -->
+    <div class="testimonial-container">
+        <h2 class="heading">Recomen<span>dações</span></h2>
+
+        <div class="testimonial-wrapper">
+            <div class="testimonial-box mySwiper">
+                <div class="testimonial-content swiper-wrapper">
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="images/testimonial1.jpg" alt="">
+                        <h3>Henrique Morais</h3>
+                        <p>Conheço o Gilney há bastante tempo. 
+                            Sem dúvidas, ele é um profissional de excelência, 
+                            desempenhando uma atividade de muita qualidade no segmento
+                             em que atua. No que diz respeito à análise, construção e
+                              entrega de conteúdos audiovisuais, ele é uma referência.</p>
+                    </div>
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="images/testimonial2.jpg" alt="">
+                        <h3>Wictor Morais</h3>
+                        <p>Conheço o Gilney, e detalhe o mesmo está no mundo Coporativo a anos.
+                             Gostaria de elogiar o design excepcional que se dedica a cada 
+                             projeto realizado. O trabalho destaca-se pela criatividade, 
+                             atenção aos detalhes e compreensão das necessidades do cliente. 
+                             A combinação de estética e funcionalidade resultou em um produto final impressionante.
+                              Parabéns pela dedicação e talento, que foram essenciais para o sucesso do projeto. Gil, tu arrasa!</p>
+                    </div>
+                    <div class="testimonial-slide swiper-slide">
+                        <img src="" alt="">
+                        <h3></h3>
+                        <p>.</p>
+                    </div>
+                </div>
+
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+          
+    <body>
+        <div class="contact-container">
+            <h2>Entre em Contato</h2>
+            <p>Fale comigo pelo WhatsApp</p>
+            <a href="https://wa.me/558498985698?text=Olá" target="_blank">Enviar mensagem</a>
+        </div>
+    </body>
+
+   <footer class="footer">
+        <div class="footer-text">
+            <p>© 2024 Gilnei Laurindo. Todos os direitos reservados.</p>
+        </div>
+    
+        <div class="footer-iconTop">
+            <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
+        </div>
+    </footer>
+
+    <!-- scroll reveal -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- swiper js -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- custom js -->
+    <script src="js/script.js"></script>
 </body>
+
 </html>
