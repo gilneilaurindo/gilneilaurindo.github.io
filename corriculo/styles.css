@@ -90,8 +90,7 @@ footer {
     width: 100%;
     bottom: 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
-    z-index: 999; /* Garante que o rodapé esteja acima de outros elementos */
-}
+  }
 
 footer p {
     margin: 0;
