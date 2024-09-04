@@ -85,9 +85,6 @@ footer {
     background-color: #0073b1; /* Cor de fundo do LinkedIn */
     color: #fff;
     text-align: center;
-    padding: 20px;
-    position: fixed;
-    width: 100%;
     bottom: 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
   }
