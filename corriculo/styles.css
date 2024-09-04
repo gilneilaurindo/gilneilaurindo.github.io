@@ -1,0 +1,106 @@
+/* Estilos básicos */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #0073b1; /* Cor de fundo do LinkedIn */
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+header p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+section {
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+h2 {
+    color: #0073b1; /* Cor de destaque do LinkedIn */
+    border-bottom: 2px solid #0073b1;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.contato-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.contato-icon {
+    text-decoration: none;
+    color: #0073b1;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid #0073b1;
+}
+
+.contato-icon:hover {
+    background-color: #0073b1;
+    color: #fff;
+}
+
+button {
+    background-color: #0073b1; /* Cor de fundo do LinkedIn */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px 0;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005a80;
+}
+
+/* Rodapé */
+footer {
+    background-color: #0073b1; /* Cor de fundo do LinkedIn */
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0; /* Garante que o rodapé vá até o início da tela */
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .contato-icons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
