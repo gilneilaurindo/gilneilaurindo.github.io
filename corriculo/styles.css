@@ -89,7 +89,6 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
-    left: 0; /* Garante que o rodapé vá até o início da tela */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
 }
 
