@@ -80,7 +80,7 @@ button:hover {
     background-color: #005a80;
 }
 
-/* Rodapé */
+/* styles.css */
 footer {
     background-color: #0073b1; /* Cor de fundo do LinkedIn */
     color: #fff;
@@ -90,6 +90,7 @@ footer {
     width: 100%;
     bottom: 0;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Adiciona uma sombra sutil */
+    z-index: 999; /* Garante que o rodapé esteja acima de outros elementos */
 }
 
 footer p {
