@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Portfólio de Vídeos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Portfólio de Vídeos - Gilnei Laurindo</h1>
+    </header>
+
+    <section class="portfolio">
+        <h2>Produção de imagens, edição de vídeos, criação de introdução, captação de áudio e design do programa – tudo feito por mim.</h2>
+        <div class="video-container">
+            <div class="video-item">
+                <video id="video1" controls>
+                    <source src="vídeos/BrisaCheck.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução de vídeos.
+                </video>
+                <p>Video 1 - Live Corporativa BrisaCheck</p>
+                <p>Visualizações: <span id="views-video1">0</span></p>
+            </div>
+            <div class="video-item">
+                <video id="video2" controls>
+                    <source src="vídeos/BrisaTalks.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução de vídeos.
+                </video>
+                <p>Video 2 - Live Corporativa BrisaTalks</p>
+                <p>Visualizações: <span id="views-video2">0</span></p>
+            </div>
+            <div class="video-item">
+                <video id="video3" controls>
+                    <source src="vídeos/Decreto -.mp4" type="video/mp4">
+                    Seu navegador não suporta a reprodução de vídeos.
+                </video>
+                <p>Decreto - Clipe Oficial: Uma Jornada Visual Poderosa</p>
+                <p>Visualizações: <span id="views-video3">0</span></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 - Gilnei Laurindo</p>
+    </footer>
+
+    <!-- JavaScript para contagem de visualizações -->
+    <script>
+        // Função para atualizar as visualizações no LocalStorage
+        function updateViews(videoId) {
+            // Checa o valor atual das visualizações no localStorage
+            let views = localStorage.getItem(videoId);
+            if (!views) {
+                views = 0;
+            }
+            // Incrementa as visualizações
+            views++;
+            localStorage.setItem(videoId, views);
+            
+            // Atualiza o texto na página
+            document.getElementById(`views-${videoId}`).innerText = views;
+        }
+
+        // Função para carregar as visualizações na inicialização
+        function loadViews(videoId) {
+            let views = localStorage.getItem(videoId);
+            if (!views) {
+                views = 0;
+            }
+            document.getElementById(`views-${videoId}`).innerText = views;
+        }
+
+        // Carrega as visualizações ao carregar a página
+        window.onload = function() {
+            loadViews('video1');
+            loadViews('video2');
+            loadViews('video3');
+
+            // Adiciona event listener para contar visualizações
+            document.getElementById('video1').addEventListener('play', function() {
+                updateViews('video1');
+            });
+            document.getElementById('video2').addEventListener('play', function() {
+                updateViews('video2');
+            });
+            document.getElementById('video3').addEventListener('play', function() {
+                updateViews('video3');
+            });
+        };
+    </script>
+
+</body>
+</html>
