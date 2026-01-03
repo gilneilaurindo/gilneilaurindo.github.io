@@ -11,6 +11,35 @@
     font-family: 'Poppins', sans-serif;
 }
 
+@media (max-width: 768px) {
+
+    #menu-icon {
+        display: block;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--bg-color);
+        display: none;
+        flex-direction: column;
+        padding: 1rem 4%;
+        z-index: 999;
+    }
+
+    .navbar.active {
+        display: flex;
+    }
+
+    .navbar a {
+        margin: 1rem 0;
+        font-size: 1.8rem;
+    }
+}
+
+
 :root {
     --bg-color: #fdfdfd;
     --text-color: #333;
