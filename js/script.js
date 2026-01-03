@@ -8,13 +8,25 @@ menuIcon.onclick = () => {
 };
 
 /* ===== MENU MOBILE ===== */
-let menuIcon = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-menuIcon.onclick = () => {
-    navbar.classList.toggle('active');
-    menuIcon.classList.toggle('bx-x');
-};
+    const menuIcon = document.getElementById('menu-icon');
+    const navbar = document.querySelector('.navbar');
+
+    if (!menuIcon || !navbar) {
+        console.error('Menu mobile: elemento não encontrado');
+        return;
+    }
+
+    menuIcon.addEventListener('click', function () {
+        navbar.classList.toggle('active');
+        this.classList.toggle('bx-x');
+    });
+
+});
+</script>
+
 
 
 /*========== scroll sections active link ==========*/
