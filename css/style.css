@@ -15,6 +15,7 @@
 
     #menu-icon {
         display: block;
+        cursor: pointer;
     }
 
     .navbar {
@@ -26,7 +27,7 @@
         display: none;
         flex-direction: column;
         padding: 1rem 4%;
-        z-index: 999;
+        z-index: 1000;
     }
 
     .navbar.active {
@@ -38,7 +39,6 @@
         font-size: 1.8rem;
     }
 }
-
 
 :root {
     --bg-color: #fdfdfd;
