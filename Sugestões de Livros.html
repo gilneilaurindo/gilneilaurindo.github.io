@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minhas Indicações de Livros</title>
+    <title>Indicações de Livros | Gilnei Laurindo</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/images/logo.png">
+    
     <!-- Tailwind para estrutura rápida e responsiva -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- Google Fonts: Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-color: #fdfdfd;
-            --text-color: #333;
+            --text-color: #1a1a1a;
             --main-color: #483fff;
             --white-color: #fdfdfd;
-            --shadow-color: rgba(0, 0, 0, .15);
+            --shadow-color: rgba(0, 0, 0, .08);
             --card-bg: #ffffff;
+            --accent-color: #25d366;
         }
 
-        /* Estilos do Modo Escuro */
         body.dark-mode {
             --bg-color: #0b061f;
             --text-color: #fdfdfd;
-            --shadow-color: rgba(0, 0, 0, .7);
+            --shadow-color: rgba(0, 0, 0, .4);
             --card-bg: #1a1433;
         }
 
@@ -32,10 +37,12 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         html {
             font-size: 62.5%;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -43,39 +50,45 @@
             color: var(--text-color);
             transition: background 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            line-height: 1.6;
         }
 
+        /* Header Premium */
         .header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 2rem 7%;
+            padding: 1.5rem 7%;
             background: var(--bg-color);
+            backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 1000;
-            box-shadow: 0 .1rem 1rem var(--shadow-color);
-            transition: background 0.4s ease;
+            box-shadow: 0 .1rem 1.5rem var(--shadow-color);
+            transition: all 0.4s ease;
         }
 
         .logo {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--main-color);
-            font-weight: 700;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: -1px;
         }
 
-        .logo span {
-            color: var(--text-color);
-        }
+        .logo span { color: var(--text-color); }
 
+        /* Card de Livro - Layout Assertivo */
         .book-card {
             background: var(--card-bg);
-            border-radius: 2rem;
-            box-shadow: 0 .8rem 2rem var(--shadow-color);
-            border: 2px solid transparent;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 2.4rem;
+            box-shadow: 0 1rem 3rem var(--shadow-color);
+            border: 1px solid rgba(128, 128, 128, 0.1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -83,49 +96,55 @@
         }
 
         .book-card:hover {
-            transform: translateY(-12px);
+            transform: translateY(-8px);
+            box-shadow: 0 2rem 4rem var(--shadow-color);
             border-color: var(--main-color);
         }
 
+        /* Botão de Download Otimizado */
         .btn-download {
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             background: var(--main-color);
             color: var(--white-color);
-            padding: 1.4rem 2rem;
-            border-radius: 1rem;
-            font-size: 1.6rem;
-            font-weight: 600;
+            padding: 1.5rem 2.5rem;
+            border-radius: 1.2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
             transition: all 0.3s ease;
-            text-align: center;
-            width: 100%;
             text-decoration: none;
             border: none;
             cursor: pointer;
+            width: 100%;
         }
 
         .btn-download:hover {
-            background: #25d366;
+            background: var(--accent-color);
             transform: scale(1.02);
-            color: white;
+            box-shadow: 0 0.5rem 1.5rem rgba(37, 211, 102, 0.3);
         }
+
+        .btn-download:active { transform: scale(0.98); }
 
         .section-title {
-            font-size: clamp(3rem, 8vw, 4.5rem);
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
             text-align: center;
-            margin-bottom: 5rem;
-            font-weight: 800;
+            margin-bottom: 4rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.2;
         }
 
-        .section-title span {
-            color: var(--main-color);
-        }
+        .section-title span { color: var(--main-color); }
 
         .book-cover-container {
             position: relative;
             width: 100%;
-            padding-top: 140%;
+            padding-top: 145%; /* Proporção ideal de livro */
+            background: #f0f0f0;
             overflow: hidden;
-            background: #eee;
         }
 
         .book-cover-image {
@@ -135,46 +154,54 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.6s ease;
         }
 
+        .book-card:hover .book-cover-image { transform: scale(1.05); }
+
         #darkMode-icon {
-            font-size: 2.4rem;
+            font-size: 2rem;
             color: var(--text-color);
             cursor: pointer;
             padding: 1rem;
-            border-radius: 50%;
-            background: var(--shadow-color);
-            transition: .3s;
+            border-radius: 1.2rem;
+            background: rgba(128, 128, 128, 0.1);
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        #darkMode-icon:hover {
-            transform: rotate(45deg);
-        }
-
         .download-badge {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(4px);
-            padding: 0.5rem 1.2rem;
-            border-radius: 2rem;
-            font-weight: bold;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 0.6rem 1.4rem;
+            border-radius: 1.2rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            color: #333;
+            gap: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: #1a1a1a;
         }
         
         body.dark-mode .download-badge {
-            background: rgba(26, 20, 51, 0.9);
+            background: rgba(26, 20, 51, 0.95);
             color: #fff;
         }
 
-        @media (max-width: 768px) {
+        /* Responsividade Assertiva */
+        @media (max-width: 1024px) {
             .header { padding: 1.5rem 5%; }
-            section { padding: 10rem 5% 5rem; }
+            section { padding: 12rem 5% 6rem; }
+        }
+
+        @media (max-width: 640px) {
+            html { font-size: 58%; }
+            .header { padding: 1.2rem 5%; }
+            .section-title { margin-bottom: 3rem; }
+            .book-card { border-radius: 2rem; }
+            .grid { gap: 3rem !important; }
         }
     </style>
 </head>
@@ -182,206 +209,176 @@
 
     <!-- Header -->
     <header class="header">
-        <a href="#" class="logo">Minha<span>Estante</span></a>
+        <a href="https://gilneilaurindo.github.io/" class="logo">Gilnei<span>Laurindo</span></a>
         
-        <div class="flex items-center gap-4">
-            <div id="darkMode-icon" onclick="toggleDarkMode()">
-                <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <div class="flex items-center gap-3">
+            <div id="darkMode-icon" onclick="toggleDarkMode()" title="Alternar tema">
+                <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </div>
             <nav>
-                <a href="#" style="font-size: 1.6rem; color: var(--main-color); font-weight: 600; text-decoration: none;">← Voltar</a>
+                <a href="https://gilneilaurindo.github.io/" class="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-slate-800 transition-all" style="font-size: 1.4rem; color: var(--main-color); font-weight: 700; text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span>Voltar</span>
+                </a>
             </nav>
         </div>
     </header>
 
     <!-- Seção Principal -->
-    <section class="pt-32 px-[7%] pb-24">
-        <h2 class="section-title">Leituras <span>Recomendadas</span></h2>
+    <main class="pt-32 px-[7%] pb-24 max-w-7xl mx-auto">
+        <h2 class="section-title">Minhas <span>Indicações</span> de Livros</h2>
         
-        <div id="loading-spinner" class="flex justify-center items-center min-h-[300px]">
-            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#483fff]"></div>
+        <!-- Skeleton / Loading -->
+        <div id="loading-spinner" class="flex flex-col justify-center items-center min-h-[400px]">
+            <div class="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-[#483fff] mb-4"></div>
+            <p class="text-[1.4rem] font-medium opacity-60">Carregando estante...</p>
         </div>
 
-        <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-14 opacity-0 transition-opacity duration-700">
-            <!-- Os livros serão gerados aqui -->
+        <div id="books-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 opacity-0 transition-opacity duration-700">
+            <!-- Gerado dinamicamente -->
         </div>
-    </section>
+    </main>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase e Lógica de Negócio -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        const firebaseConfig = window.__firebase_config ? JSON.parse(window.__firebase_config) : {
-            apiKey: "",
-            authDomain: "default-app-id.firebaseapp.com",
-            projectId: "default-app-id"
-        };
-
-        const appId = window.__app_id || 'portfolio-livros-v3';
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
         const MY_BOOKS = [
             {
                 id: "a-unica-coisa",
                 title: "A Única Coisa",
-                subtitle: "O foco pode trazer resultados extraordinários para sua vida",
+                subtitle: "O foco que traz resultados extraordinários",
                 author: "Gary Keller",
-                description: "Foque no que é vital. Gary Keller apresenta um método simples para eliminar distrações e concentrar sua energia naquilo que realmente importa.",
-                // Link formatado para download direto do Google Drive
+                description: "Elimine as distrações e concentre sua energia no que é vital. Um guia prático para alcançar produtividade máxima com menos esforço.",
                 downloadUrl: "https://drive.google.com/uc?export=download&id=18EKtR9WGbU58t4YDcQh28XbGMSiNdF3p",
                 cover: "https://m.media-amazon.com/images/I/71E6vzs501L._SY466_.jpg"
             },
             {
                 id: "mais-esperto-diabo",
                 title: "Mais Esperto que o Diabo",
-                subtitle: "O mistério revelado da liberdade e do sucesso",
+                subtitle: "A liberdade e o sucesso revelados",
                 author: "Napoleon Hill",
-                description: "Napoleon Hill revela como o medo e a alienação podem impedir o sucesso. Uma obra essencial sobre autodeterminação e o controle da própria mente.",
-                // Link formatado para download direto do Google Drive
+                description: "Descubra como vencer os medos e as limitações mentais que impedem o seu progresso. Uma lição profunda sobre autodeterminação.",
                 downloadUrl: "https://drive.google.com/uc?export=download&id=15-OMNGx90vdizsnl6Qxl_uxK3HjVPzZk",
                 cover: "https://m.media-amazon.com/images/I/819ERrDHRcL._SY466_.jpg"
             },
             {
                 id: "quebrando-habito",
                 title: "Quebrando o Hábito de Ser Você Mesmo",
-                subtitle: "Como reconstruir sua mente e criar um novo eu",
+                subtitle: "Como criar uma nova realidade pessoal",
                 author: "Dr. Joe Dispenza",
-                description: "Uma ponte entre a física quântica e a neurociência. Aprenda a reprogramar seu cérebro para criar uma nova personalidade e realidade pessoal.",
-                // Link formatado para download direto do Google Drive
+                description: "Reprograme seu cérebro e mude seus padrões emocionais através da neurociência e física quântica para manifestar seu potencial.",
                 downloadUrl: "https://drive.google.com/uc?export=download&id=1gPBRYCbvgS3cnXJCJNa2UVIp-MgK4fdV",
                 cover: "https://m.media-amazon.com/images/I/61a6IJf2BeL.jpg"
             }
         ];
 
-        let currentUser = null;
-
-        async function initAuth() {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Erro na autenticação:", error);
-            }
-        }
-
-        onAuthStateChanged(auth, (user) => {
-            currentUser = user;
-            if (user) {
-                const spinner = document.getElementById('loading-spinner');
-                const grid = document.getElementById('books-grid');
-                if(spinner) spinner.style.display = 'none';
-                if(grid) {
-                    grid.classList.remove('opacity-0');
-                    renderBooks();
-                }
-            }
-        });
-
         function renderBooks() {
             const grid = document.getElementById('books-grid');
-            grid.innerHTML = '';
+            const spinner = document.getElementById('loading-spinner');
+            if (!grid) return;
 
+            grid.innerHTML = '';
             MY_BOOKS.forEach(book => {
                 const card = document.createElement('div');
                 card.className = "book-card";
-                
                 card.innerHTML = `
                     <div class="book-cover-container">
-                        <img src="${book.cover}" alt="Capa do livro ${book.title}" class="book-cover-image">
-                        <div class="absolute bottom-4 left-4">
+                        <img src="${book.cover}" alt="${book.title}" class="book-cover-image" onerror="this.src='https://via.placeholder.com/400x600?text=Capa+Indisponível'">
+                        <div class="absolute top-4 right-4">
                             <div class="download-badge">
-                                <span class="text-[1.3rem]">📥</span>
-                                <span class="text-[1.4rem] font-bold" id="counter-${book.id}">0</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                <span class="text-[1.3rem]" id="counter-${book.id}">...</span>
                             </div>
                         </div>
                     </div>
                     <div class="p-8 flex-grow flex flex-col">
-                        <h3 class="text-[2.2rem] font-bold mb-1 leading-tight text-slate-900 dark:text-white transition-colors">${book.title}</h3>
-                        <p class="text-[1.2rem] text-slate-500 dark:text-slate-400 mb-3 leading-snug font-medium italic">${book.subtitle}</p>
-                        <p class="text-[1.3rem] font-semibold text-indigo-600 mb-5 uppercase tracking-widest">${book.author}</p>
-                        <p class="text-[1.5rem] text-slate-600 dark:text-slate-300 leading-relaxed mb-10 flex-grow font-light transition-colors">
+                        <h3 class="text-[2.1rem] font-bold mb-1 leading-tight text-slate-900 dark:text-white">${book.title}</h3>
+                        <p class="text-[1.2rem] text-slate-500 dark:text-slate-400 mb-3 font-medium italic">${book.subtitle}</p>
+                        <p class="text-[1.3rem] font-bold text-indigo-600 mb-5 uppercase tracking-tighter">${book.author}</p>
+                        <p class="text-[1.5rem] text-slate-600 dark:text-slate-300 leading-relaxed mb-10 flex-grow font-light">
                             ${book.description}
                         </p>
-                        <button 
-                           onclick="window.handleDownloadClick('${book.id}', '${book.downloadUrl}')"
-                           class="btn-download">
-                           Download PDF
+                        <button onclick="window.handleDownloadClick('${book.id}', '${book.downloadUrl}')" class="btn-download">
+                            <span>Download PDF</span>
                         </button>
                     </div>
                 `;
                 grid.appendChild(card);
-
-                if (currentUser) {
-                    const statsPath = doc(db, 'artifacts', appId, 'public', 'data', 'book_stats', book.id);
-                    onSnapshot(statsPath, (docSnap) => {
-                        const counterElem = document.getElementById(`counter-${book.id}`);
-                        if (counterElem && docSnap.exists()) {
-                            counterElem.innerText = docSnap.data().clicks || 0;
-                        }
-                    }, (err) => console.error("Erro no Listener:", err));
-                }
             });
+
+            spinner.style.display = 'none';
+            grid.classList.remove('opacity-0');
         }
 
-        window.handleDownloadClick = async (id, url) => {
-            if (!currentUser) return;
+        renderBooks();
 
-            const bookRef = doc(db, 'artifacts', appId, 'public', 'data', 'book_stats', id);
-            try {
-                // Incrementa o contador no Firestore
-                const docSnap = await getDoc(bookRef);
-                if (!docSnap.exists()) {
-                    await setDoc(bookRef, { clicks: 1 });
-                } else {
-                    await updateDoc(bookRef, { clicks: increment(1) });
+        // Firebase Setup com Error Handling
+        try {
+            const firebaseConfig = window.__firebase_config ? JSON.parse(window.__firebase_config) : { apiKey: "", authDomain: "", projectId: "" };
+            const appId = window.__app_id || 'portfolio-livros-gilnei';
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    MY_BOOKS.forEach(book => {
+                        const path = doc(db, 'artifacts', appId, 'public', 'data', 'book_stats', book.id);
+                        onSnapshot(path, (snap) => {
+                            const el = document.getElementById(`counter-${book.id}`);
+                            if (el) el.innerText = snap.exists() ? (snap.data().clicks || 0) : 0;
+                        });
+                    });
                 }
+            });
 
-                // Cria um link temporário oculto para disparar o download imediato
+            const startAuth = async () => {
+                if (window.__initial_auth_token) await signInWithCustomToken(auth, window.__initial_auth_token);
+                else await signInAnonymously(auth);
+            };
+            startAuth();
+
+            window.handleDownloadClick = async (id, url) => {
+                // UX: Feedback imediato e download
                 const link = document.createElement('a');
                 link.href = url;
-                link.setAttribute('download', ''); // Sugere download
-                link.style.display = 'none';
+                link.target = "_blank";
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
 
-            } catch (e) {
-                console.error("Erro ao contabilizar download:", e);
-                window.open(url, '_blank');
-            }
-        };
-
-        initAuth();
+                // Contador persistente
+                if (auth.currentUser) {
+                    const ref = doc(db, 'artifacts', appId, 'public', 'data', 'book_stats', id);
+                    const snap = await getDoc(ref);
+                    if (!snap.exists()) await setDoc(ref, { clicks: 1 });
+                    else await updateDoc(ref, { clicks: increment(1) });
+                }
+            };
+        } catch (e) {
+            console.log("Modo offline: Firebase não configurado.");
+            window.handleDownloadClick = (id, url) => window.open(url, '_blank');
+        }
     </script>
 
     <script>
+        // Lógica de Tema Escuro
         function toggleDarkMode() {
             const body = document.body;
-            const iconContainer = document.getElementById('darkMode-icon');
-            
+            const icon = document.getElementById('darkMode-icon');
             body.classList.toggle('dark-mode');
-            
             const isDark = body.classList.contains('dark-mode');
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             
-            iconContainer.innerHTML = isDark 
-                ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>'
-                : '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+            icon.innerHTML = isDark 
+                ? '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>'
+                : '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                toggleDarkMode();
-            }
-        });
+        if (localStorage.getItem('theme') === 'dark') toggleDarkMode();
     </script>
 </body>
 </html>
