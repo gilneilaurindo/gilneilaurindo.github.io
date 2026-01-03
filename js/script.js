@@ -7,6 +7,15 @@ menuIcon.onclick = () => {
     navbar.classList.toggle('active');
 };
 
+/* ===== MENU MOBILE ===== */
+let menuIcon = document.querySelector('#menu-icon');
+let navbar = document.querySelector('.navbar');
+
+menuIcon.onclick = () => {
+    navbar.classList.toggle('active');
+    menuIcon.classList.toggle('bx-x');
+};
+
 
 /*========== scroll sections active link ==========*/
 let sections = document.querySelectorAll('section');
