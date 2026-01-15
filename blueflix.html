@@ -17,534 +17,302 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #141414; color: white; overflow-x: hidden; }
         
-        /* Esconder Scrollbar mas manter funcionalidade */
+        /* Esconder Scrollbar */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animações */
+        /* Animação de Zoom Lento (Ken Burns) */
+        @keyframes slowZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.15); }
+        }
+        .animate-slowZoom { animation: slowZoom 20s linear infinite alternate; }
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .animate-fadeIn { animation: fadeIn 0.6s ease-out; }
         
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-slideUp { animation: slideUp 0.8s ease-out forwards; }
 
-        /* Utilitários de transição */
-        .transition-all-300 { transition: all 0.3s ease; }
-        
-        /* Classes para o Modal */
-        #modal-overlay { backdrop-filter: blur(8px); }
+        .row-container { scroll-behavior: smooth; }
+
+        /* Efeito de Vidro (Glassmorphism) */
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="selection:bg-blue-600 selection:text-white">
+<body class="selection:bg-blue-600 selection:text-white flex flex-col min-h-screen">
 
     <!-- Navbar -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-gradient-to-b from-black/90 to-transparent">
-        <div class="flex items-center justify-between px-4 md:px-12 py-4">
-            <div class="flex items-center gap-8">
-                <h1 onclick="router('home')" class="text-3xl font-bold text-blue-600 tracking-tighter cursor-pointer hover:scale-105 transition-transform">
+        <div class="flex items-center justify-between px-4 md:px-12 py-3 md:py-4">
+            <div class="flex items-center gap-4 md:gap-8">
+                <h1 onclick="router('home')" class="text-2xl md:text-3xl font-bold text-blue-600 tracking-tighter cursor-pointer hover:scale-105 transition-transform">
                     BLUE<span class="text-white">FLIX</span>
                 </h1>
-                <ul class="hidden md:flex gap-6 text-sm font-medium text-gray-300" id="nav-links">
-                    <li onclick="router('home')" class="cursor-pointer hover:text-blue-400 transition text-white font-bold" data-page="home">Início</li>
+                <ul class="hidden lg:flex gap-6 text-sm font-medium text-gray-300" id="nav-links">
+                    <li onclick="router('home')" class="cursor-pointer hover:text-blue-400 transition" data-page="home">Início</li>
                     <li onclick="router('courses')" class="cursor-pointer hover:text-blue-400 transition" data-page="courses">Cursos</li>
                     <li onclick="router('certificates')" class="cursor-pointer hover:text-blue-400 transition" data-page="certificates">Certificados</li>
                     <li onclick="router('admin')" class="cursor-pointer hover:text-blue-400 transition" data-page="admin">Dashboard</li>
                 </ul>
             </div>
             
-            <div class="flex items-center gap-6 text-white">
+            <div class="flex items-center gap-4 md:gap-6 text-white">
                 <i data-lucide="search" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition"></i>
-                <i data-lucide="bell" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition"></i>
-                <div onclick="router('admin')" class="flex items-center gap-2 cursor-pointer group">
-                    <div class="w-8 h-8 rounded bg-gradient-to-br from-blue-700 to-blue-900 flex items-center justify-center overflow-hidden border border-transparent group-hover:border-white transition shadow-lg shadow-blue-900/50">
-                        <i data-lucide="user" class="w-5 h-5"></i>
-                    </div>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-1"><i data-lucide="menu" class="w-6 h-6"></i></button>
+                <i data-lucide="bell" class="hidden sm:block w-5 h-5 cursor-pointer hover:text-blue-500 transition"></i>
+                <div onclick="router('admin')" class="w-8 h-8 rounded bg-blue-700 flex items-center justify-center cursor-pointer hover:ring-2 ring-white transition">
+                    <i data-lucide="user" class="w-5 h-5"></i>
                 </div>
             </div>
         </div>
+        
+        <!-- Menu Mobile -->
+        <div id="mobile-nav" class="hidden lg:hidden bg-black/95 border-b border-gray-800 animate-fadeIn">
+            <ul class="flex flex-col p-6 gap-4 text-center font-bold text-gray-300">
+                <li onclick="router('home'); toggleMobileMenu()">Início</li>
+                <li onclick="router('courses'); toggleMobileMenu()">Cursos</li>
+                <li onclick="router('certificates'); toggleMobileMenu()">Certificados</li>
+                <li onclick="router('admin'); toggleMobileMenu()">Dashboard</li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- Main Content Container -->
-    <main id="app-content" class="min-h-screen pb-12">
-        <!-- O conteúdo será injetado aqui via JavaScript -->
+    <!-- Main Content -->
+    <main id="app-content" class="flex-grow min-h-screen">
+        <!-- Conteúdo via JS -->
     </main>
 
-    <!-- Modal (Escondido por padrão) -->
-    <div id="course-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 animate-fadeIn">
+    <!-- Modal de Curso -->
+    <div id="course-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-0 md:p-4 animate-fadeIn">
         <div id="modal-overlay" class="absolute inset-0 bg-black/80" onclick="closeModal()"></div>
-        <div class="relative w-full max-w-4xl bg-[#181818] rounded-xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col max-h-[90vh] overflow-y-auto custom-scrollbar">
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-30 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition">
+        <div class="relative w-full max-w-4xl bg-[#181818] md:rounded-xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col h-full md:h-auto md:max-h-[90vh] overflow-y-auto scrollbar-hide">
+            <button onclick="closeModal()" class="fixed md:absolute top-4 right-4 z-[70] w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
-            
-            <!-- Modal Content Injected Here -->
             <div id="modal-content"></div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="w-full bg-black/90 text-gray-500 py-12 px-4 md:px-12 mt-auto border-t border-gray-900">
-        <div class="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <footer class="w-full bg-black/90 text-gray-500 py-12 px-6 md:px-12 border-t border-gray-900 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <h2 class="text-xl font-bold text-white tracking-tighter">BLUE<span class="text-blue-600">FLIX</span></h2>
             <p class="text-xs">© 2024 Gilnei Laurindo. Todos os direitos reservados.</p>
-            <div class="flex gap-4 text-xs">
-                <span class="hover:text-white cursor-pointer">Privacidade</span>
-                <span class="hover:text-white cursor-pointer">Termos</span>
-                <span class="hover:text-white cursor-pointer">Suporte</span>
+            <div class="flex gap-6 text-xs uppercase font-bold">
+                <span class="hover:text-blue-500 cursor-pointer transition">Privacidade</span>
+                <span class="hover:text-blue-500 cursor-pointer transition">Suporte</span>
             </div>
         </div>
     </footer>
 
     <script>
-        // --- DADOS (Mock Database) ---
         const COURSES = [
-            { id: 1, title: 'React Masterclass 2024', description: 'Domine a biblioteca mais popular do mundo. Aprenda Hooks, Context API e Redux.', category: 'tech', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80', progress: 45, duration: '12h 30m', rating: '98% Relevante', isTrending: true },
-            { id: 2, title: 'UX Design Avançado', description: 'Crie experiências inesquecíveis. Psicologia das cores e Figma.', category: 'design', image: 'https://images.unsplash.com/photo-1586717791821-3f44a5638d48?w=800&q=80', progress: 10, duration: '8h 15m', rating: '95% Relevante', isTrending: false },
-            { id: 3, title: 'Marketing Digital 360', description: 'Estratégias de SEO e tráfego pago para escalar negócios.', category: 'business', image: 'https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=800&q=80', progress: 0, duration: '22h 00m', rating: '99% Relevante', isTrending: true },
-            { id: 4, title: 'Python para Data Science', description: 'Machine Learning com Pandas, NumPy e Scikit-learn.', category: 'tech', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80', progress: 80, duration: '18h 45m', rating: '97% Relevante', isTrending: true },
-            { id: 5, title: 'Liderança Ágil', description: 'Gestão de times com Scrum e Kanban.', category: 'business', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80', progress: 0, duration: '6h 20m', rating: '92% Relevante', isTrending: false },
-            { id: 6, title: 'Fotografia Profissional', description: 'Luz, composição e edição para fotos incríveis.', category: 'design', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=800&q=80', progress: 0, duration: '10h 00m', rating: '94% Relevante', isTrending: false },
-            { id: 7, title: 'Arquitetura de Software', description: 'Padrões de projeto e microsserviços.', category: 'tech', image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80', progress: 0, duration: '15h 30m', rating: '99% Relevante', isTrending: true },
-            { id: 8, title: 'Finanças Corporativas', description: 'Gestão financeira para executivos.', category: 'business', image: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80', progress: 0, duration: '5h 00m', rating: '90% Relevante', isTrending: false },
+            { id: 1, title: 'React Masterclass 2024', description: 'Domine a biblioteca mais popular do mundo. Aprenda Hooks, Context API e Redux.', category: 'tech', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80', progress: 45, duration: '12h 30m', rating: '98% Relevante', isTrending: true },
+            { id: 2, title: 'UX Design Avançado', description: 'Crie experiências inesquecíveis. Psicologia aplicada ao produto, design systems e Figma avançado.', category: 'design', image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1200&q=80', progress: 10, duration: '15h 15m', rating: '99% Relevante', isTrending: true },
+            { id: 3, title: 'Marketing Digital 360', description: 'Estratégias de SEO e tráfego pago para escalar negócios.', category: 'business', image: 'https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=1200&q=80', progress: 0, duration: '22h 00m', rating: '99% Relevante', isTrending: true },
+            { id: 4, title: 'Python para Data Science', description: 'Machine Learning com Pandas, NumPy e Scikit-learn.', category: 'tech', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80', progress: 80, duration: '18h 45m', rating: '97% Relevante', isTrending: true },
+            { id: 5, title: 'Liderança Ágil', description: 'Gestão de times com Scrum e Kanban no mundo corporativo moderno.', category: 'business', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80', progress: 0, duration: '6h 20m', rating: '92% Relevante', isTrending: false },
+            { id: 9, title: 'UI Design Systems', description: 'Aprenda a criar bibliotecas de componentes escaláveis e consistentes.', category: 'design', image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=1200&q=80', progress: 0, duration: '10h 20m', rating: '96% Relevante', isTrending: false },
+            { id: 10, title: 'UX Research & Discovery', description: 'Métodos de pesquisa com usuários e validação de hipóteses.', category: 'design', image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&q=80', progress: 0, duration: '12h 00m', rating: '98% Relevante', isTrending: false }
         ];
 
         const CATEGORIES = [
-            { id: 'continue', title: 'Continue Estudando' },
-            { id: 'trending', title: 'Em Alta na Comunidade' },
-            { id: 'tech', title: 'Tecnologia e Desenvolvimento' },
-            { id: 'business', title: 'Negócios e Marketing' },
-            { id: 'design', title: 'Design e UX' },
+            { id: 'all', title: 'Todos' },
+            { id: 'tech', title: 'Tecnologia' },
+            { id: 'design', title: 'Design & UX' },
+            { id: 'business', title: 'Negócios' }
         ];
 
-        const EMPLOYEES = [
-            { id: 1, name: 'Ana Silva', role: 'Dev Frontend', courses: 12, hours: 45, status: 'Ativo' },
-            { id: 2, name: 'Carlos Souza', role: 'UX Designer', courses: 8, hours: 22, status: 'Pendente' },
-            { id: 3, name: 'Mariana Lima', role: 'Product Owner', courses: 15, hours: 60, status: 'Ativo' },
-            { id: 4, name: 'João Pedro', role: 'Dev Backend', courses: 5, hours: 10, status: 'Inativo' },
-        ];
+        function router(page) {
+            const app = document.getElementById('app-content');
+            window.scrollTo(0, 0);
 
-        // --- LÓGICA DE RENDERIZAÇÃO ---
+            // Update Nav Active State
+            document.querySelectorAll('#nav-links li').forEach(li => {
+                li.classList.toggle('text-white', li.dataset.page === page);
+                li.classList.toggle('font-bold', li.dataset.page === page);
+            });
 
-        function renderHero() {
-            const course = COURSES[0];
-            return `
-            <div class="relative h-[85vh] w-full text-white overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-full animate-fadeIn">
-                    <img src="${course.image}" alt="Featured" class="w-full h-full object-cover transform scale-105 hover:scale-100 transition-transform duration-[10s]">
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/70 to-transparent"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent"></div>
-                </div>
+            if (page === 'home') app.innerHTML = renderHero() + renderRows();
+            else if (page === 'courses') app.innerHTML = renderAllCourses();
+            else if (page === 'certificates') app.innerHTML = renderCertificates();
+            else if (page === 'admin') app.innerHTML = renderAdmin();
 
-                <div class="absolute top-[30%] md:top-[35%] left-4 md:left-12 max-w-2xl space-y-6 z-10">
-                    <div class="flex items-center gap-2 text-blue-400 font-bold tracking-widest text-xs uppercase animate-slideUp">
-                        <i data-lucide="award" class="w-4 h-4"></i>
-                        <span>Série Original BlueFlix</span>
-                    </div>
-                    
-                    <h1 class="text-5xl md:text-7xl font-bold leading-tight drop-shadow-2xl animate-slideUp" style="animation-delay: 0.1s">
-                        ${course.title}
-                    </h1>
-                    
-                    <p class="text-lg text-gray-200 drop-shadow-md max-w-xl line-clamp-3 animate-slideUp" style="animation-delay: 0.2s">
-                        ${course.description}
-                    </p>
-                    
-                    <div class="flex items-center gap-4 mt-8 animate-slideUp" style="animation-delay: 0.3s">
-                        <button onclick="openModal(${course.id})" class="flex items-center gap-2 px-8 py-3 bg-white text-black hover:bg-blue-600 hover:text-white rounded font-bold transition transform hover:scale-105 active:scale-95 shadow-lg shadow-white/10">
-                            <i data-lucide="play" class="w-6 h-6 fill-current"></i>
-                            Assistir
-                        </button>
-                        <button onclick="openModal(${course.id})" class="flex items-center gap-2 px-8 py-3 bg-gray-500/30 hover:bg-gray-500/50 text-white rounded font-bold backdrop-blur-sm transition transform hover:scale-105 border border-white/20">
-                            <i data-lucide="info" class="w-6 h-6"></i>
-                            Detalhes
-                        </button>
-                    </div>
-                </div>
-            </div>
-            `;
+            lucide.createIcons();
         }
 
-        function createCourseCard(course) {
+        function renderHero() {
+            const course = COURSES[1]; // UX Design Avançado
             return `
-            <div onclick="openModal(${course.id})" class="group relative flex-none w-[200px] md:w-[280px] aspect-video bg-gray-900 rounded-md overflow-hidden cursor-pointer transition-all duration-300 hover:z-20 hover:scale-110 hover:shadow-2xl hover:shadow-blue-600/20 border border-transparent hover:border-blue-500/30">
-                <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100">
-                ${course.progress > 0 ? `
-                <div class="absolute bottom-0 left-0 w-full h-1 bg-gray-800">
-                    <div class="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]" style="width: ${course.progress}%"></div>
-                </div>` : ''}
-                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h4 class="text-white font-bold text-sm mb-1">${course.title}</h4>
-                    <div class="flex items-center justify-between">
-                        <p class="text-green-400 text-xs font-bold">${course.rating}</p>
-                        <div class="flex gap-2">
-                            <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-blue-600 hover:text-white transition shadow-lg">
-                                <i data-lucide="play" class="w-4 h-4 fill-current ml-0.5"></i>
-                            </div>
-                            <div class="w-8 h-8 rounded-full border border-gray-300 text-white flex items-center justify-center hover:bg-gray-800 transition">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                            </div>
-                        </div>
+            <div class="relative h-[80vh] w-full text-white overflow-hidden flex items-center">
+                <div class="absolute inset-0 z-0 overflow-hidden">
+                    <img src="${course.image}" class="w-full h-full object-cover animate-slowZoom scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent"></div>
+                </div>
+                <div class="relative z-10 px-4 md:px-12 max-w-3xl space-y-6 animate-slideUp">
+                    <span class="text-blue-500 font-bold tracking-widest uppercase text-xs">Aprenda com Especialistas</span>
+                    <h1 class="text-4xl md:text-7xl font-bold leading-tight">${course.title}</h1>
+                    <p class="text-lg text-gray-300 hidden md:block">${course.description}</p>
+                    <div class="flex gap-4">
+                        <button onclick="openModal(${course.id})" class="px-8 py-3 bg-white text-black rounded font-bold hover:bg-blue-600 hover:text-white transition">Começar Agora</button>
+                        <button onclick="openModal(${course.id})" class="px-8 py-3 bg-gray-500/20 backdrop-blur rounded font-bold border border-white/20 hover:bg-gray-500/40 transition">Mais Informações</button>
                     </div>
                 </div>
-            </div>
-            `;
+            </div>`;
         }
 
         function renderRows() {
-            let html = '<div class="relative z-10 -mt-24 md:-mt-32 space-y-2 md:space-y-8 pb-10">';
-            
-            CATEGORIES.forEach((cat, index) => {
-                let filteredCourses = [];
-                if (cat.id === 'continue') filteredCourses = COURSES.filter(c => c.progress > 0);
-                else if (cat.id === 'trending') filteredCourses = COURSES.filter(c => c.isTrending);
-                else filteredCourses = COURSES.filter(c => c.category === cat.id || (cat.id === 'tech' && c.category === 'tech'));
-
-                if (filteredCourses.length > 0) {
-                    html += `
-                    <div class="mb-8 relative group/row px-4 md:px-12 space-y-4">
-                        <h2 class="text-lg md:text-xl font-bold text-gray-200 hover:text-blue-500 cursor-pointer transition inline-flex items-center gap-2">
-                            ${cat.title} <i data-lucide="chevron-right" class="w-5 h-5 opacity-0 group-hover/row:opacity-100 text-blue-500 transition-opacity"></i>
-                        </h2>
-                        <div class="relative group">
-                            <div onclick="scrollRow('row-${index}', 'left')" class="absolute left-0 top-0 bottom-0 z-30 m-auto h-full w-12 flex items-center justify-center cursor-pointer bg-gradient-to-r from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110">
-                                <i data-lucide="chevron-left" class="w-8 h-8"></i>
-                            </div>
-                            
-                            <div id="row-${index}" class="flex gap-4 overflow-x-auto scrollbar-hide pb-8 pt-4 px-1 scroll-smooth">
-                                ${filteredCourses.map(course => createCourseCard(course)).join('')}
-                            </div>
-
-                            <div onclick="scrollRow('row-${index}', 'right')" class="absolute right-0 top-0 bottom-0 z-30 m-auto h-full w-12 flex items-center justify-center cursor-pointer bg-gradient-to-l from-black/80 to-transparent text-white opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110">
-                                <i data-lucide="chevron-right" class="w-8 h-8"></i>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                }
-            });
-            html += '</div>';
-            return html;
-        }
-
-        function renderAdmin() {
             return `
-            <div class="pt-24 px-4 md:px-12 pb-12 animate-fadeIn text-white">
-                <div class="flex justify-between items-end mb-8 border-b border-gray-800 pb-4">
-                    <div>
-                        <h2 class="text-3xl font-bold text-blue-500">Gestão de Equipes</h2>
-                        <p class="text-gray-400">Relatórios em tempo real e progresso de colaboradores</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <button class="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded border border-gray-700 text-sm">
-                            <i data-lucide="download" class="w-4 h-4"></i> Exportar CSV
-                        </button>
-                        <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded font-bold text-sm">
-                            <i data-lucide="plus" class="w-4 h-4"></i> Novo Usuário
-                        </button>
-                    </div>
-                </div>
-
-                <!-- KPI Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-blue-900 transition hover:bg-[#202020] group">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 rounded bg-gray-900 text-blue-500 group-hover:scale-110 transition-transform"><i data-lucide="users" class="w-6 h-6"></i></div>
-                            <span class="text-xs font-bold text-green-500">+12%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold mb-1">1,234</h3>
-                        <p class="text-gray-500 text-sm">Usuários Ativos</p>
-                    </div>
-                    <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-blue-900 transition hover:bg-[#202020] group">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 rounded bg-gray-900 text-purple-500 group-hover:scale-110 transition-transform"><i data-lucide="clock" class="w-6 h-6"></i></div>
-                            <span class="text-xs font-bold text-green-500">+5%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold mb-1">45.2k</h3>
-                        <p class="text-gray-500 text-sm">Horas Assistidas</p>
-                    </div>
-                    <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-blue-900 transition hover:bg-[#202020] group">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 rounded bg-gray-900 text-green-500 group-hover:scale-110 transition-transform"><i data-lucide="check" class="w-6 h-6"></i></div>
-                            <span class="text-xs font-bold text-green-500">+22%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold mb-1">892</h3>
-                        <p class="text-gray-500 text-sm">Cursos Concluídos</p>
-                    </div>
-                    <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800 hover:border-blue-900 transition hover:bg-[#202020] group">
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="p-3 rounded bg-gray-900 text-orange-500 group-hover:scale-110 transition-transform"><i data-lucide="pie-chart" class="w-6 h-6"></i></div>
-                            <span class="text-xs font-bold text-red-500">-2%</span>
-                        </div>
-                        <h3 class="text-3xl font-bold mb-1">88%</h3>
-                        <p class="text-gray-500 text-sm">Engajamento</p>
-                    </div>
-                </div>
-
-                <!-- Gráficos -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-                    <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-bold flex items-center gap-2"><i data-lucide="bar-chart-2" class="w-5 h-5 text-blue-500"></i> Aprendizado por Depto</h3>
-                            <i data-lucide="filter" class="w-4 h-4 text-gray-500 cursor-pointer"></i>
-                        </div>
-                        <div class="h-64 flex items-end justify-between gap-4 px-2">
-                            ${[40, 70, 55, 90, 30, 60, 80].map(h => `
-                                <div class="w-full bg-gray-800 rounded-t overflow-hidden relative group">
-                                    <div class="absolute bottom-0 w-full bg-blue-600 transition-all duration-1000 group-hover:bg-blue-400" style="height: ${h}%"></div>
-                                    <div class="absolute -top-8 left-0 right-0 text-center opacity-0 group-hover:opacity-100 text-xs text-white transition">${h}%</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                         <div class="flex justify-between mt-4 text-xs text-gray-500 font-mono">
-                            <span>MKT</span><span>DEV</span><span>RH</span><span>COM</span><span>FIN</span><span>OPS</span><span>LOG</span>
-                        </div>
-                    </div>
-
-                    <div class="bg-[#1a1a1a] p-6 rounded-lg border border-gray-800">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="font-bold flex items-center gap-2"><i data-lucide="award" class="w-5 h-5 text-yellow-500"></i> Top Talentos</h3>
-                            <i data-lucide="settings" class="w-4 h-4 text-gray-500 cursor-pointer"></i>
-                        </div>
-                        <div class="space-y-4">
-                            ${EMPLOYEES.slice(0,4).map(emp => `
-                                <div class="flex items-center justify-between p-3 rounded hover:bg-gray-800 transition cursor-pointer">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center font-bold text-sm">
-                                            ${emp.name.substring(0,2).toUpperCase()}
-                                        </div>
-                                        <div>
-                                            <p class="font-bold text-sm">${emp.name}</p>
-                                            <p class="text-xs text-gray-500">${emp.role}</p>
-                                        </div>
+            <div class="relative z-10 -mt-24 space-y-12 pb-20">
+                ${['trending', 'design', 'tech'].map(catId => {
+                    const title = catId === 'trending' ? 'Destaques' : catId === 'design' ? 'Design & UX' : 'Tecnologia';
+                    const list = catId === 'trending' ? COURSES.filter(c => c.isTrending) : COURSES.filter(c => c.category === catId);
+                    return `
+                    <div class="px-4 md:px-12">
+                        <h2 class="text-xl font-bold mb-4">${title}</h2>
+                        <div class="flex gap-4 overflow-x-auto scrollbar-hide snap-x">
+                            ${list.map(c => `
+                                <div onclick="openModal(${c.id})" class="snap-start flex-none w-[260px] md:w-[320px] aspect-video bg-gray-900 rounded-md overflow-hidden cursor-pointer hover:scale-105 transition-transform border border-gray-800 group relative">
+                                    <img src="${c.image}" class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <i data-lucide="play" class="w-12 h-12 text-white"></i>
                                     </div>
-                                    <div class="text-right">
-                                        <p class="text-blue-400 font-bold text-sm">${emp.courses} Cursos</p>
-                                        <p class="text-xs text-gray-500">${emp.hours}h assistidas</p>
+                                    <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent">
+                                        <h4 class="text-sm font-bold truncate">${c.title}</h4>
                                     </div>
                                 </div>
                             `).join('')}
                         </div>
-                    </div>
-                </div>
-                
-                 <!-- Tabela -->
-                <div class="bg-[#1a1a1a] rounded-lg border border-gray-800 overflow-hidden">
-                    <div class="p-6 border-b border-gray-800 flex justify-between items-center">
-                        <h3 class="font-bold text-lg">Relatório Detalhado</h3>
-                        <input type="text" placeholder="Buscar..." class="bg-gray-900 border border-gray-700 rounded px-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-gray-400">
-                            <thead class="bg-gray-900 text-gray-200 uppercase text-xs font-bold">
-                                <tr>
-                                    <th class="px-6 py-4">Nome</th>
-                                    <th class="px-6 py-4">Cargo</th>
-                                    <th class="px-6 py-4">Status</th>
-                                    <th class="px-6 py-4">Último Acesso</th>
-                                    <th class="px-6 py-4 text-right">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-800">
-                                ${EMPLOYEES.map(emp => `
-                                    <tr class="hover:bg-gray-800/50 transition">
-                                        <td class="px-6 py-4 font-medium text-white">${emp.name}</td>
-                                        <td class="px-6 py-4">${emp.role}</td>
-                                        <td class="px-6 py-4">
-                                            <span class="px-2 py-1 rounded text-xs font-bold ${emp.status === 'Ativo' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
-                                                ${emp.status}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4">Há 2 horas</td>
-                                        <td class="px-6 py-4 text-right">
-                                            <button class="text-blue-500 hover:text-white font-bold text-xs">EDITAR</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            `;
-        }
-
-        function renderCertificates() {
-            return `
-            <div class="pt-32 px-4 md:px-12 pb-12 min-h-screen text-white animate-fadeIn">
-                <h2 class="text-3xl font-bold mb-8 border-l-4 border-blue-600 pl-4">Meus Certificados</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-gray-900 border border-gray-800 p-8 rounded-lg relative overflow-hidden hover:border-blue-500 transition group">
-                        <i data-lucide="award" class="w-16 h-16 text-gray-700 mb-4 group-hover:text-blue-500 transition-colors"></i>
-                        <h3 class="text-xl font-bold mb-2">Masterclass React & Redux</h3>
-                        <p class="text-sm text-gray-500 mb-6">Concluído em 15 Jan 2024 • 45 Horas</p>
-                        <button class="w-full py-2 bg-gray-800 hover:bg-white hover:text-black rounded font-bold transition flex items-center justify-center gap-2">
-                            <i data-lucide="download" class="w-4 h-4"></i> Baixar PDF
-                        </button>
-                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl group-hover:bg-blue-600/40 transition"></div>
-                    </div>
-                    <div class="bg-gray-900 border border-gray-800 p-8 rounded-lg relative overflow-hidden hover:border-blue-500 transition group">
-                        <i data-lucide="award" class="w-16 h-16 text-gray-700 mb-4 group-hover:text-blue-500 transition-colors"></i>
-                        <h3 class="text-xl font-bold mb-2">UX Design Fundamentals</h3>
-                        <p class="text-sm text-gray-500 mb-6">Concluído em 10 Fev 2024 • 20 Horas</p>
-                        <button class="w-full py-2 bg-gray-800 hover:bg-white hover:text-black rounded font-bold transition flex items-center justify-center gap-2">
-                            <i data-lucide="download" class="w-4 h-4"></i> Baixar PDF
-                        </button>
-                        <div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-600/20 rounded-full blur-2xl group-hover:bg-blue-600/40 transition"></div>
-                    </div>
-                </div>
-            </div>
-            `;
+                    </div>`;
+                }).join('')}
+            </div>`;
         }
 
         function renderAllCourses() {
             return `
-            <div class="pt-32 px-4 md:px-12 pb-12 min-h-screen text-white animate-fadeIn">
-                <h2 class="text-3xl font-bold mb-8 border-l-4 border-blue-600 pl-4">Catálogo Completo</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                    ${COURSES.map(course => `
-                        <div onclick="openModal(${course.id})" class="group relative aspect-video bg-gray-800 rounded overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 z-0 hover:z-20 hover:shadow-xl">
-                            <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                <i data-lucide="play" class="text-white w-12 h-12"></i>
+            <div class="pt-28 px-4 md:px-12 pb-20 animate-fadeIn">
+                <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+                    <div>
+                        <h2 class="text-3xl md:text-5xl font-bold mb-2">Catálogo de Cursos</h2>
+                        <p class="text-gray-400">Explore todas as nossas trilhas de conhecimento.</p>
+                    </div>
+                    <div class="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
+                        ${CATEGORIES.map(cat => `<button class="whitespace-nowrap px-6 py-2 rounded-full border border-gray-700 text-sm font-bold hover:bg-white hover:text-black transition">${cat.title}</button>`).join('')}
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    ${COURSES.map(c => `
+                        <div onclick="openModal(${c.id})" class="bg-[#181818] rounded-xl overflow-hidden border border-gray-800 hover:border-blue-500 transition-all group cursor-pointer">
+                            <div class="aspect-video relative overflow-hidden">
+                                <img src="${c.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute top-2 right-2 bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-bold">${c.duration}</div>
                             </div>
-                            <div class="absolute bottom-0 left-0 w-full p-2 bg-gradient-to-t from-black to-transparent">
-                                <p class="text-xs font-bold truncate">${course.title}</p>
+                            <div class="p-5 space-y-3">
+                                <span class="text-blue-500 text-[10px] font-bold uppercase tracking-widest">${c.category}</span>
+                                <h3 class="font-bold text-lg group-hover:text-blue-400 transition">${c.title}</h3>
+                                <p class="text-sm text-gray-400 line-clamp-2">${c.description}</p>
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-800">
+                                    <span class="text-xs font-bold text-green-500">${c.rating}</span>
+                                    <button class="text-white hover:text-blue-500"><i data-lucide="plus" class="w-5 h-5"></i></button>
+                                </div>
                             </div>
                         </div>
                     `).join('')}
                 </div>
-            </div>
-            `;
+            </div>`;
         }
 
-        // --- SISTEMA DE NAVEGAÇÃO ---
-        function router(page) {
-            const app = document.getElementById('app-content');
-            const navLinks = document.querySelectorAll('#nav-links li');
-            
-            // Atualiza classe ativa no menu
-            navLinks.forEach(link => {
-                if(link.dataset.page === page) {
-                    link.classList.add('text-white', 'font-bold');
-                    link.classList.remove('text-gray-300');
-                } else {
-                    link.classList.remove('text-white', 'font-bold');
-                    link.classList.add('text-gray-300');
-                }
-            });
-
-            // Scroll to top
-            window.scrollTo(0, 0);
-
-            // Renderiza conteúdo
-            if (page === 'home') {
-                app.innerHTML = renderHero() + renderRows();
-            } else if (page === 'admin') {
-                app.innerHTML = renderAdmin();
-            } else if (page === 'certificates') {
-                app.innerHTML = renderCertificates();
-            } else if (page === 'courses') {
-                app.innerHTML = renderAllCourses();
-            }
-
-            // Re-inicializa ícones
-            lucide.createIcons();
-        }
-
-        // --- LÓGICA DE INTERFACE ---
-
-        // Scroll Horizontal
-        function scrollRow(elementId, direction) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.scrollBy({
-                    left: direction === 'left' ? -300 : 300,
-                    behavior: 'smooth'
-                });
-            }
-        }
-
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 0) {
-                nav.classList.add('bg-[#0a0a0a]', 'shadow-lg', 'border-b', 'border-blue-900/30');
-                nav.classList.remove('bg-gradient-to-b');
-            } else {
-                nav.classList.remove('bg-[#0a0a0a]', 'shadow-lg', 'border-b', 'border-blue-900/30');
-                nav.classList.add('bg-gradient-to-b');
-            }
-        });
-
-        // Modal Logic
-        function openModal(courseId) {
-            const course = COURSES.find(c => c.id === courseId);
-            if (!course) return;
-
-            const modalContent = document.getElementById('modal-content');
-            modalContent.innerHTML = `
-                <div class="relative h-[450px] w-full">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent z-10"></div>
-                    <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover">
-                    <div class="absolute bottom-12 left-12 z-20 w-[90%] md:w-[60%]">
-                        <h2 class="text-4xl font-bold text-white mb-4 drop-shadow-lg">${course.title}</h2>
-                        <div class="flex items-center gap-4 mb-6">
-                            <button class="flex items-center gap-2 px-8 py-3 bg-white text-black font-bold rounded hover:bg-blue-600 hover:text-white transition transform hover:scale-105">
-                                <i data-lucide="play" class="w-5 h-5 fill-current"></i> Assistir
-                            </button>
-                            <button class="p-3 border-2 border-gray-500 rounded-full text-gray-300 hover:border-white hover:text-white transition">
-                                <i data-lucide="plus" class="w-5 h-5"></i>
-                            </button>
-                        </div>
-                    </div>
+        function renderCertificates() {
+            const myCerts = [
+                { title: 'UX Design Essentials', date: 'Dez 2023', code: 'BF-9921', img: COURSES[1].image },
+                { title: 'React Performance', date: 'Jan 2024', code: 'BF-4412', img: COURSES[0].image }
+            ];
+            return `
+            <div class="pt-28 px-4 md:px-12 pb-20 animate-fadeIn">
+                <div class="mb-12">
+                    <h2 class="text-3xl md:text-5xl font-bold mb-2">Meus Certificados</h2>
+                    <p class="text-gray-400">Valide as suas competências com as nossas certificações.</p>
                 </div>
-                <div class="px-12 pb-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-                    <div class="md:col-span-2 space-y-6">
-                        <div class="flex items-center gap-4 text-sm font-semibold">
-                            <span class="text-green-400 font-bold">${course.rating}</span>
-                            <span class="text-gray-400">${course.duration}</span>
-                            <span class="border border-gray-500 px-1 rounded text-[10px] text-gray-400">4K</span>
-                            <span class="border border-gray-500 px-1 rounded text-[10px] text-gray-400">CC</span>
-                        </div>
-                        <p class="text-lg text-gray-300 leading-relaxed font-light">${course.description}</p>
-                        <div class="border-t border-gray-700 pt-6">
-                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-blue-500"><i data-lucide="book-open" class="w-5 h-5"></i> Aulas do Módulo 1</h3>
-                            <div class="flex items-center justify-between py-3 border-b border-gray-800 hover:bg-gray-800 px-2 rounded cursor-pointer group">
-                                <div class="flex items-center gap-4 text-gray-400 group-hover:text-white">
-                                    <span class="text-xl font-bold text-gray-600 group-hover:text-white">1</span>
-                                    <div class="w-24 h-14 bg-gray-700 rounded overflow-hidden relative">
-                                        <img src="${course.image}" class="w-full h-full object-cover opacity-50" alt="">
-                                        <i data-lucide="play" class="absolute inset-0 m-auto w-6 h-6 text-white opacity-0 group-hover:opacity-100"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-bold text-sm">Introdução ao Conceito</h4>
-                                        <span class="text-xs text-gray-500">15 min</span>
-                                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    ${myCerts.map(cert => `
+                        <div class="glass p-6 rounded-2xl flex flex-col md:flex-row gap-6 hover:bg-white/10 transition group">
+                            <div class="w-full md:w-48 aspect-[4/3] rounded-lg overflow-hidden border border-gray-700 relative">
+                                <img src="${cert.img}" class="w-full h-full object-cover opacity-50">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <i data-lucide="award" class="w-12 h-12 text-blue-500"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow flex flex-col justify-center">
+                                <h3 class="text-xl font-bold mb-1">${cert.title}</h3>
+                                <p class="text-sm text-gray-500 mb-4">Concluído em ${cert.date}</p>
+                                <div class="flex items-center gap-4">
+                                    <button class="flex items-center gap-2 text-xs font-bold text-blue-500 hover:underline">
+                                        <i data-lucide="download" class="w-4 h-4"></i> DOWNLOAD PDF
+                                    </button>
+                                    <span class="text-[10px] text-gray-700 font-mono">ID: ${cert.code}</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="space-y-6 text-sm text-gray-400">
-                        <div><span class="block text-gray-600 mb-1">Instrutor:</span> <span class="text-white">Dr. Roberto Silva, PhD</span></div>
-                        <div><span class="block text-gray-600 mb-1">Gênero:</span> <span class="text-white capitalize">${course.category}</span></div>
+                    `).join('')}
+                    <div class="border-2 border-dashed border-gray-800 rounded-2xl flex items-center justify-center p-12 text-center text-gray-600">
+                        <div>
+                            <i data-lucide="lock" class="w-8 h-8 mx-auto mb-2 opacity-20"></i>
+                            <p class="text-sm font-bold">Conclua mais cursos para desbloquear novos certificados.</p>
+                        </div>
                     </div>
                 </div>
-            `;
-            
+            </div>`;
+        }
+
+        function renderAdmin() {
+            return `<div class="pt-28 px-4 md:px-12 pb-20"><h2 class="text-3xl font-bold">Dashboard Admin</h2><p class="text-gray-500">Apenas para gestores.</p></div>`;
+        }
+
+        function openModal(id) {
+            const c = COURSES.find(x => x.id === id);
+            document.getElementById('modal-content').innerHTML = `
+                <div class="relative">
+                    <div class="aspect-video w-full relative">
+                        <img src="${c.image}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#181818] to-transparent"></div>
+                    </div>
+                    <div class="p-8 space-y-6">
+                        <h2 class="text-3xl md:text-5xl font-bold">${c.title}</h2>
+                        <p class="text-gray-300 text-lg">${c.description}</p>
+                        <div class="flex gap-4">
+                            <button class="flex-grow md:flex-none px-12 py-3 bg-white text-black font-bold rounded hover:bg-blue-600 hover:text-white transition">ASSISTIR</button>
+                            <button class="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition"><i data-lucide="plus" class="w-6 h-6"></i></button>
+                        </div>
+                    </div>
+                </div>`;
             document.getElementById('course-modal').classList.remove('hidden');
             document.getElementById('course-modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
             lucide.createIcons();
         }
 
         function closeModal() {
             document.getElementById('course-modal').classList.add('hidden');
             document.getElementById('course-modal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
         }
 
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', () => {
-            router('home');
+        function toggleMobileMenu() {
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.toggle('hidden');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('bg-black', window.scrollY > 50);
+            nav.classList.toggle('shadow-xl', window.scrollY > 50);
         });
 
+        // Init
+        document.addEventListener('DOMContentLoaded', () => router('home'));
     </script>
 </body>
 </html>
