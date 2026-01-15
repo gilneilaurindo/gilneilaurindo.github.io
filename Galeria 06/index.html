@@ -1,127 +1,157 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio | Gilnei Laurindo</title>
 
- <head>
-	
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="Loop Nerd" content="Códigos Pronto" />
-    <meta name="description" content="Loop Nerd Códigos e sites pronto para você utilizar no seu negócio."/>
-    <meta name="keywords" content="Html, Css, Jquery, Wordpress, Sites Grátis, Tema para Wordpress, Site Responsivo"/>
-    <meta name="author" content="Loop Nerd" />
-    <meta name="URL" content="https://www.www.loopnerd.com"/>
-    <meta http-equiv="content-language" content="pt-br" />
-    <meta name="robots" content="index, follow"/>
+    <!-- Meta Tags para Redes Sociais (Open Graph) -->
+    <meta property="og:title" content="Portfólio | Gilnei Laurindo">
+    <meta property="og:description" content="Seleção de trabalhos realizados em design, vídeo e experiências digitais.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/images/about.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/images/about.png">
+
+    <!-- Favicon Customizado -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/galeria%2001/img/favicon.png">
     
-    <!--[if lt IE 9]>
-        <script src="js/html5shiv.js"></script>
-    <![endif]-->       
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e5e5e5;
+            -webkit-font-smoothing: antialiased;
+        }
 
-	<link rel="stylesheet" type="text/css" href="css/reset.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/fonts-icones.css">
-    <link rel="shortcut icon" href="img/favicon.png" type="image/ico" />
+        .project-card {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
 
-	<title>Galeria/Gilnei Laurindo</title>
+        /* Hover apenas para dispositivos com mouse */
+        @media (hover: hover) {
+            .project-card:hover {
+                opacity: 0.9;
+                transform: translateY(-4px);
+            }
+        }
 
- </head>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
 
-<body>
-    
-<header class="main_header container">        
-    <div class="content">
-    
-        <div class="main_header_logo">
-            <a href="https://gilneilaurindo.github.io/"><img src="img/logo.png" alt="logo.png" title="Loop Nerd"/></a>
+        /* Em telas muito pequenas, o card ocupa a largura total mas mantém o aspecto */
+        @media (max-width: 400px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+        }
+
+        /* Proporção 16:9 Adaptável */
+        .media-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #111;
+            border-radius: 0.375rem;
+            overflow: hidden;
+            display: block;
+        }
+
+        .media-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .media-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Suavização de scroll para mobile */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="max-w-5xl mx-auto px-6 py-12 md:py-24">
+
+    <!-- 1️⃣ TOPO: SILENCIOSO -->
+    <header class="mb-16 md:mb-24 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6">
+        <img src="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/galeria%2001/img/favicon.png" alt="Logo" class="w-10 h-10 opacity-90">
+        <div>
+            <h1 class="text-xs md:text-sm uppercase tracking-[0.2em] text-neutral-500 mb-2 font-semibold">Portfólio</h1>
+            <p class="text-xl md:text-3xl font-light text-neutral-200 leading-tight max-w-2xl">
+                Seleção de trabalhos realizados em design, vídeo e experiências digitais.
+            </p>
+        </div>
+    </header>
+
+    <!-- 2️⃣ TRABALHOS: CURADORIA DURA -->
+    <main class="grid-container mb-24 md:mb-40">
+        
+        <!-- Projeto 1: Web Designer (Brisaflix) -->
+        <div class="project-card group">
+            <a href="https://brisaflix.vercel.app/" target="_blank" rel="noopener" class="media-container mb-4 border border-neutral-800 shadow-lg">
+                <img src="https://raw.githubusercontent.com/gilnei-ship-it/brisaflix/main/imgens/Captura%20de%20tela%202025-12-27%20190713.png" alt="Captura de tela do Brisaflix">
+            </a>
+            <h3 class="text-sm md:text-base font-medium text-neutral-200">Brisaflix</h3>
+            <p class="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1">Web Designer / Desenvolvimento</p>
         </div>
 
-    </div>
-</header>
-
-<main class="main_content container">
-
-        
-    <section class="section-seu-codigo container">
-        
-        <div class="content">
-                                
-            <h1 class="section_title"><i class="fab fa-github"></i>Proposta Comercial para Serviços de Fisioterapia</h1>
-            
-            <div class="box-galeria">
-                    
-                <div class="box-foto">
-                    <a href="uploads/foto1.jpg" rel="shadowbox[vocation]" title="Foto 1">
-                        <img src="uploads/foto1.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto2.jpg" rel="shadowbox[vocation]" title="Foto 2">
-                        <img src="uploads/foto2.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto3.jpg" rel="shadowbox[vocation]" title="Foto 3">
-                        <img src="uploads/foto3.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto4.jpg" rel="shadowbox[vocation]" title="Foto 4">
-                        <img src="uploads/foto4.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto5.jpg" rel="shadowbox[vocation]" title="Foto 5">
-                        <img src="uploads/foto5.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto6.jpg" rel="shadowbox[vocation]" title="Foto 6">
-                        <img src="uploads/foto6.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto7.jpg" rel="shadowbox[vocation]" title="Foto 7">
-                        <img src="uploads/foto7.jpg">
-                    </a>
-                </div>
-
-                <div class="box-foto">
-                    <a href="uploads/foto8.jpg" rel="shadowbox[vocation]" title="Foto 8">
-                        <img src="uploads/foto8.jpg">
-                    </a>
-                </div>
-
-            </div><!--Box Galeria-->
-
-
-        <div class="clear"></div>
+        <!-- Projeto 2: Produção de Vídeo (LinkedIn Embed) -->
+        <div class="project-card group">
+            <div class="media-container mb-4 border border-neutral-800 shadow-lg">
+                <iframe 
+                    src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7388273568687656960?compact=1" 
+                    frameborder="0" 
+                    allowfullscreen="" 
+                    title="Produção de vídeo recente">
+                </iframe>
+            </div>
+            <h3 class="text-sm md:text-base font-medium text-neutral-200">Nome da Produção</h3>
+            <p class="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1">Vídeo / Edição</p>
         </div>
-    </section><!--FECHA BOX HTML-->
 
+        <!-- Projeto 3: Identidade Visual (Galeria 06) -->
+        <div class="project-card group">
+            <a href="https://gilneilaurindo.github.io/Galeria%2006/index.html" target="_blank" rel="noopener" class="media-container mb-4 border border-neutral-800 shadow-lg">
+                <img src="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/images/portfolio6.jpg" alt="Projeto de Identidade Visual">
+            </a>
+            <h3 class="text-sm md:text-base font-medium text-neutral-200">Identidade Visual</h3>
+            <p class="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1">Design Gráfico</p>
+        </div>
 
-</main>
+    </main>
 
-<footer class="main_footer container">
-    <div class="main_footer_copy">
-
-        <p class="m-b-footer"></p> 
-        <p class="by"><i class="icon icon-laptop"></i> Transformando Código, Vídeo e Lives em Arte</p>
-    
-    </div>
-</footer>
-
-<script src="js/jquery.js"></script>
-<script src="js/script.js"></script>
-
-<link rel="stylesheet" type="text/css" href="js/shadowbox/shadowbox.css" />
-<script src="js/shadowbox/shadowbox.js"></script>
-<script src="js/shadowbox/script.shadowbox.js"></script>
+    <!-- 3️⃣ CONTATO SIMPLES -->
+    <footer class="border-t border-neutral-800 pt-12 md:pt-16 pb-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
+            <div class="space-y-4">
+                <p class="text-lg md:text-xl font-light text-neutral-400">Se fizer sentido, conversamos.</p>
+                <a href="mailto:gilneycriative@gmail.com" class="text-sm md:text-base text-neutral-200 hover:text-white transition-colors underline underline-offset-4 decoration-neutral-700 block sm:inline-block">
+                    gilneycriative@gmail.com
+                </a>
+            </div>
+            <div class="flex flex-wrap gap-6 md:gap-8 text-xs md:text-sm text-neutral-500 uppercase tracking-widest">
+                <a href="https://www.linkedin.com/in/gilnei-laurindo/" target="_blank" rel="noopener" class="hover:text-neutral-200 transition-colors">LinkedIn</a>
+                <a href="https://www.instagram.com/gilneycriative/" target="_blank" rel="noopener" class="hover:text-neutral-200 transition-colors">Instagram</a>
+            </div>
+        </div>
+        <p class="text-[10px] text-neutral-700 mt-16 tracking-widest uppercase">© 2024 Gilnei Laurindo</p>
+    </footer>
 
 </body>
 </html>
