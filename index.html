@@ -37,7 +37,6 @@
             transition: transform 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Hover apenas para dispositivos com mouse */
         @media (hover: hover) {
             .project-card:hover {
                 opacity: 0.9;
@@ -58,7 +57,6 @@
             }
         }
 
-        /* Proporção 16:9 Adaptável */
         .media-container {
             position: relative;
             width: 100%;
@@ -116,12 +114,13 @@
 
         <!-- Projeto 2: Produção de Vídeo (O poder da edição) -->
         <div class="project-card group">
-            <div class="media-container mb-4 border border-neutral-800 shadow-lg">
-                <!-- Atributos allowfullscreen e allow="fullscreen" adicionados para permitir visualização maximizada -->
+            <div class="media-container mb-4 border border-neutral-800 shadow-lg" id="video-container">
+                <!-- Mantendo o iframe do LinkedIn com permissões de tela cheia -->
                 <iframe 
+                    id="video-frame"
                     src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7388273568687656960?compact=1" 
                     frameborder="0" 
-                    allow="fullscreen"
+                    allow="fullscreen; autoplay"
                     allowfullscreen
                     title="O poder da edição">
                 </iframe>
@@ -157,6 +156,22 @@
         </div>
         <p class="text-[10px] text-neutral-700 mt-16 tracking-widest uppercase">© 2024 Gilnei Laurindo</p>
     </footer>
+
+    <script>
+        // Lógica para tentar maximizar quando o usuário interagir com o container do vídeo
+        const videoContainer = document.getElementById('video-container');
+        const videoFrame = document.getElementById('video-frame');
+
+        videoContainer.addEventListener('click', () => {
+            if (videoFrame.requestFullscreen) {
+                videoFrame.requestFullscreen();
+            } else if (videoFrame.webkitRequestFullscreen) { /* Safari */
+                videoFrame.webkitRequestFullscreen();
+            } else if (videoFrame.msRequestFullscreen) { /* IE11 */
+                videoFrame.msRequestFullscreen();
+            }
+        });
+    </script>
 
 </body>
 </html>
