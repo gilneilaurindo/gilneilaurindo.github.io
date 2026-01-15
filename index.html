@@ -92,7 +92,7 @@
 </head>
 <body class="max-w-5xl mx-auto px-6 py-12 md:py-24">
 
-    <!-- 1️⃣ TOPO: SILENCIOSO (Logo removida do cabeçalho) -->
+    <!-- 1️⃣ TOPO: SILENCIOSO -->
     <header class="mb-16 md:mb-24 flex flex-col items-start gap-4">
         <div>
             <h1 class="text-xs md:text-sm uppercase tracking-[0.2em] text-neutral-500 mb-2 font-semibold">Gilnei Laurindo</h1>
@@ -108,7 +108,6 @@
         <!-- Projeto 1: Web Designer (Blueflix) -->
         <div class="project-card group">
             <a href="https://gilneilaurindo.github.io/blueflix.html" target="_blank" rel="noopener" class="media-container mb-4 border border-neutral-800 shadow-lg">
-                <!-- Nova imagem atualizada para o Blueflix -->
                 <img src="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/images/%7BF9A8F0F5-53BF-4EA5-A2B5-4D4AAFE554AF%7D.png" alt="Capa do projeto Blueflix">
             </a>
             <h3 class="text-sm md:text-base font-medium text-neutral-200">Blueflix</h3>
@@ -118,10 +117,12 @@
         <!-- Projeto 2: Produção de Vídeo (O poder da edição) -->
         <div class="project-card group">
             <div class="media-container mb-4 border border-neutral-800 shadow-lg">
+                <!-- Atributos allowfullscreen e allow="fullscreen" adicionados para permitir visualização maximizada -->
                 <iframe 
                     src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7388273568687656960?compact=1" 
                     frameborder="0" 
-                    allowfullscreen="" 
+                    allow="fullscreen"
+                    allowfullscreen
                     title="O poder da edição">
                 </iframe>
             </div>
