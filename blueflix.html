@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #141414; color: white; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: white; overflow-x: hidden; }
         
         /* Esconder Scrollbar */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -34,10 +34,9 @@
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-slideUp { animation: slideUp 0.8s ease-out forwards; }
 
-        .row-container { scroll-behavior: smooth; }
-
         /* Efeito de Vidro (Glassmorphism) */
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .card-hover:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(59, 130, 246, 0.5); transform: translateY(-4px); transition: all 0.3s ease; }
     </style>
 </head>
 <body class="selection:bg-blue-600 selection:text-white flex flex-col min-h-screen">
@@ -86,7 +85,7 @@
     <!-- Modal de Curso -->
     <div id="course-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-0 md:p-4 animate-fadeIn">
         <div id="modal-overlay" class="absolute inset-0 bg-black/80" onclick="closeModal()"></div>
-        <div class="relative w-full max-w-4xl bg-[#181818] md:rounded-xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col h-full md:h-auto md:max-h-[90vh] overflow-y-auto scrollbar-hide">
+        <div class="relative w-full max-w-4xl bg-[#121212] md:rounded-xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col h-full md:h-auto md:max-h-[90vh] overflow-y-auto scrollbar-hide">
             <button onclick="closeModal()" class="fixed md:absolute top-4 right-4 z-[70] w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
@@ -112,23 +111,15 @@
             { id: 2, title: 'UX Design Avançado', description: 'Crie experiências inesquecíveis. Psicologia aplicada ao produto, design systems e Figma avançado.', category: 'design', image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1200&q=80', progress: 10, duration: '15h 15m', rating: '99% Relevante', isTrending: true },
             { id: 3, title: 'Marketing Digital 360', description: 'Estratégias de SEO e tráfego pago para escalar negócios.', category: 'business', image: 'https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=1200&q=80', progress: 0, duration: '22h 00m', rating: '99% Relevante', isTrending: true },
             { id: 4, title: 'Python para Data Science', description: 'Machine Learning com Pandas, NumPy e Scikit-learn.', category: 'tech', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200&q=80', progress: 80, duration: '18h 45m', rating: '97% Relevante', isTrending: true },
-            { id: 5, title: 'Liderança Ágil', description: 'Gestão de times com Scrum e Kanban no mundo corporativo moderno.', category: 'business', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80', progress: 0, duration: '6h 20m', rating: '92% Relevante', isTrending: false },
-            { id: 9, title: 'UI Design Systems', description: 'Aprenda a criar bibliotecas de componentes escaláveis e consistentes.', category: 'design', image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=1200&q=80', progress: 0, duration: '10h 20m', rating: '96% Relevante', isTrending: false },
-            { id: 10, title: 'UX Research & Discovery', description: 'Métodos de pesquisa com usuários e validação de hipóteses.', category: 'design', image: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&q=80', progress: 0, duration: '12h 00m', rating: '98% Relevante', isTrending: false }
+            { id: 5, title: 'Liderança Ágil', description: 'Gestão de times com Scrum e Kanban no mundo corporativo moderno.', category: 'business', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80', progress: 0, duration: '6h 20m', rating: '92% Relevante', isTrending: false }
         ];
 
-        const CATEGORIES = [
-            { id: 'all', title: 'Todos' },
-            { id: 'tech', title: 'Tecnologia' },
-            { id: 'design', title: 'Design & UX' },
-            { id: 'business', title: 'Negócios' }
-        ];
+        const HERO_IMAGE_URL = 'https://media.licdn.com/dms/image/v2/D4D16AQExFTwIMD3Rsg/profile-displaybackgroundimage-shrink_350_1400/B4DZX75gv6HAAk-/0/1743687913643?e=1770249600&v=beta&t=ruXMOdm9Y-gK1Q-KqeuyrI-s7xlqyA1WNDCKLF9nYW0';
 
         function router(page) {
             const app = document.getElementById('app-content');
             window.scrollTo(0, 0);
 
-            // Update Nav Active State
             document.querySelectorAll('#nav-links li').forEach(li => {
                 li.classList.toggle('text-white', li.dataset.page === page);
                 li.classList.toggle('font-bold', li.dataset.page === page);
@@ -143,21 +134,19 @@
         }
 
         function renderHero() {
-            const course = COURSES[1]; // UX Design Avançado
             return `
             <div class="relative h-[80vh] w-full text-white overflow-hidden flex items-center">
                 <div class="absolute inset-0 z-0 overflow-hidden">
-                    <img src="${course.image}" class="w-full h-full object-cover animate-slowZoom scale-110">
+                    <img src="${HERO_IMAGE_URL}" class="w-full h-full object-cover animate-slowZoom scale-110">
                     <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
                 </div>
                 <div class="relative z-10 px-4 md:px-12 max-w-3xl space-y-6 animate-slideUp">
                     <span class="text-blue-500 font-bold tracking-widest uppercase text-xs">Aprenda com Especialistas</span>
-                    <h1 class="text-4xl md:text-7xl font-bold leading-tight">${course.title}</h1>
-                    <p class="text-lg text-gray-300 hidden md:block">${course.description}</p>
+                    <h1 class="text-4xl md:text-7xl font-bold leading-tight">Excelência no Aprendizado Corporativo</h1>
+                    <p class="text-lg text-gray-300 hidden md:block">Descubra as trilhas mais avançadas do mercado e potencialize a sua carreira com certificados reconhecidos.</p>
                     <div class="flex gap-4">
-                        <button onclick="openModal(${course.id})" class="px-8 py-3 bg-white text-black rounded font-bold hover:bg-blue-600 hover:text-white transition">Começar Agora</button>
-                        <button onclick="openModal(${course.id})" class="px-8 py-3 bg-gray-500/20 backdrop-blur rounded font-bold border border-white/20 hover:bg-gray-500/40 transition">Mais Informações</button>
+                        <button onclick="router('courses')" class="px-8 py-3 bg-white text-black rounded font-bold hover:bg-blue-600 hover:text-white transition">Ver Cursos</button>
                     </div>
                 </div>
             </div>`;
@@ -166,57 +155,37 @@
         function renderRows() {
             return `
             <div class="relative z-10 -mt-24 space-y-12 pb-20">
-                ${['trending', 'design', 'tech'].map(catId => {
-                    const title = catId === 'trending' ? 'Destaques' : catId === 'design' ? 'Design & UX' : 'Tecnologia';
-                    const list = catId === 'trending' ? COURSES.filter(c => c.isTrending) : COURSES.filter(c => c.category === catId);
-                    return `
-                    <div class="px-4 md:px-12">
-                        <h2 class="text-xl font-bold mb-4">${title}</h2>
-                        <div class="flex gap-4 overflow-x-auto scrollbar-hide snap-x">
-                            ${list.map(c => `
-                                <div onclick="openModal(${c.id})" class="snap-start flex-none w-[260px] md:w-[320px] aspect-video bg-gray-900 rounded-md overflow-hidden cursor-pointer hover:scale-105 transition-transform border border-gray-800 group relative">
-                                    <img src="${c.image}" class="w-full h-full object-cover">
-                                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                        <i data-lucide="play" class="w-12 h-12 text-white"></i>
-                                    </div>
-                                    <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent">
-                                        <h4 class="text-sm font-bold truncate">${c.title}</h4>
-                                    </div>
+                <div class="px-4 md:px-12">
+                    <h2 class="text-xl font-bold mb-4">Cursos em Alta</h2>
+                    <div class="flex gap-4 overflow-x-auto scrollbar-hide snap-x">
+                        ${COURSES.map(c => `
+                            <div onclick="openModal(${c.id})" class="snap-start flex-none w-[260px] md:w-[320px] aspect-video bg-gray-900 rounded-md overflow-hidden cursor-pointer hover:scale-105 transition-transform border border-gray-800 group relative">
+                                <img src="${c.image}" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <i data-lucide="play" class="w-12 h-12 text-white"></i>
                                 </div>
-                            `).join('')}
-                        </div>
-                    </div>`;
-                }).join('')}
+                                <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black to-transparent">
+                                    <h4 class="text-sm font-bold truncate">${c.title}</h4>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
             </div>`;
         }
 
         function renderAllCourses() {
             return `
             <div class="pt-28 px-4 md:px-12 pb-20 animate-fadeIn">
-                <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
-                    <div>
-                        <h2 class="text-3xl md:text-5xl font-bold mb-2">Catálogo de Cursos</h2>
-                        <p class="text-gray-400">Explore todas as nossas trilhas de conhecimento.</p>
-                    </div>
-                    <div class="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
-                        ${CATEGORIES.map(cat => `<button class="whitespace-nowrap px-6 py-2 rounded-full border border-gray-700 text-sm font-bold hover:bg-white hover:text-black transition">${cat.title}</button>`).join('')}
-                    </div>
-                </div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-8">Todos os Cursos</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     ${COURSES.map(c => `
                         <div onclick="openModal(${c.id})" class="bg-[#181818] rounded-xl overflow-hidden border border-gray-800 hover:border-blue-500 transition-all group cursor-pointer">
-                            <div class="aspect-video relative overflow-hidden">
-                                <img src="${c.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                <div class="absolute top-2 right-2 bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-bold">${c.duration}</div>
-                            </div>
-                            <div class="p-5 space-y-3">
+                            <div class="aspect-video relative overflow-hidden"><img src="${c.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"></div>
+                            <div class="p-5 space-y-2">
                                 <span class="text-blue-500 text-[10px] font-bold uppercase tracking-widest">${c.category}</span>
-                                <h3 class="font-bold text-lg group-hover:text-blue-400 transition">${c.title}</h3>
+                                <h3 class="font-bold text-lg">${c.title}</h3>
                                 <p class="text-sm text-gray-400 line-clamp-2">${c.description}</p>
-                                <div class="flex items-center justify-between pt-4 border-t border-gray-800">
-                                    <span class="text-xs font-bold text-green-500">${c.rating}</span>
-                                    <button class="text-white hover:text-blue-500"><i data-lucide="plus" class="w-5 h-5"></i></button>
-                                </div>
                             </div>
                         </div>
                     `).join('')}
@@ -225,49 +194,150 @@
         }
 
         function renderCertificates() {
-            const myCerts = [
-                { title: 'UX Design Essentials', date: 'Dez 2023', code: 'BF-9921', img: COURSES[1].image },
-                { title: 'React Performance', date: 'Jan 2024', code: 'BF-4412', img: COURSES[0].image }
-            ];
-            return `
-            <div class="pt-28 px-4 md:px-12 pb-20 animate-fadeIn">
-                <div class="mb-12">
-                    <h2 class="text-3xl md:text-5xl font-bold mb-2">Meus Certificados</h2>
-                    <p class="text-gray-400">Valide as suas competências com as nossas certificações.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    ${myCerts.map(cert => `
-                        <div class="glass p-6 rounded-2xl flex flex-col md:flex-row gap-6 hover:bg-white/10 transition group">
-                            <div class="w-full md:w-48 aspect-[4/3] rounded-lg overflow-hidden border border-gray-700 relative">
-                                <img src="${cert.img}" class="w-full h-full object-cover opacity-50">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <i data-lucide="award" class="w-12 h-12 text-blue-500"></i>
-                                </div>
-                            </div>
-                            <div class="flex-grow flex flex-col justify-center">
-                                <h3 class="text-xl font-bold mb-1">${cert.title}</h3>
-                                <p class="text-sm text-gray-500 mb-4">Concluído em ${cert.date}</p>
-                                <div class="flex items-center gap-4">
-                                    <button class="flex items-center gap-2 text-xs font-bold text-blue-500 hover:underline">
-                                        <i data-lucide="download" class="w-4 h-4"></i> DOWNLOAD PDF
-                                    </button>
-                                    <span class="text-[10px] text-gray-700 font-mono">ID: ${cert.code}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                    <div class="border-2 border-dashed border-gray-800 rounded-2xl flex items-center justify-center p-12 text-center text-gray-600">
-                        <div>
-                            <i data-lucide="lock" class="w-8 h-8 mx-auto mb-2 opacity-20"></i>
-                            <p class="text-sm font-bold">Conclua mais cursos para desbloquear novos certificados.</p>
-                        </div>
-                    </div>
+            return `<div class="pt-28 px-4 md:px-12 pb-20 animate-fadeIn text-center">
+                <h2 class="text-3xl font-bold mb-4">Meus Certificados</h2>
+                <div class="glass p-12 rounded-2xl max-w-lg mx-auto">
+                    <i data-lucide="award" class="w-16 h-16 mx-auto mb-4 text-blue-500"></i>
+                    <p class="text-gray-400">Você ainda não completou nenhum curso para gerar um certificado.</p>
                 </div>
             </div>`;
         }
 
         function renderAdmin() {
-            return `<div class="pt-28 px-4 md:px-12 pb-20"><h2 class="text-3xl font-bold">Dashboard Admin</h2><p class="text-gray-500">Apenas para gestores.</p></div>`;
+            return `
+            <div class="pt-28 px-4 md:px-12 pb-20 animate-fadeIn space-y-10">
+                <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Painel Executivo</h2>
+                        <p class="text-gray-400">Relatório geral de performance e engajamento da plataforma.</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-sm font-bold rounded flex items-center gap-2 transition">
+                            <i data-lucide="download" class="w-4 h-4"></i> Exportar Dados
+                        </button>
+                        <button class="px-4 py-2 glass hover:bg-white/10 text-sm font-bold rounded transition">
+                            Filtros
+                        </button>
+                    </div>
+                </header>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    ${[
+                        { label: 'Alunos Ativos', value: '12,842', trend: '+14%', icon: 'users', color: 'text-blue-500' },
+                        { label: 'Taxa de Conclusão', value: '68.4%', trend: '+5.2%', icon: 'check-circle', color: 'text-green-500' },
+                        { label: 'Tempo Médio / Aula', value: '42 min', trend: '-2%', icon: 'clock', color: 'text-purple-500' },
+                        { label: 'Novos Certificados', value: '1,204', trend: '+22%', icon: 'award', color: 'text-yellow-500' }
+                    ].map(card => `
+                        <div class="glass p-6 rounded-2xl card-hover border-l-4 border-l-transparent hover:border-l-blue-500">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-2 bg-white/5 rounded-lg ${card.color}">
+                                    <i data-lucide="${card.icon}" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xs font-bold ${card.trend.startsWith('+') ? 'text-green-500' : 'text-red-500'} bg-white/5 px-2 py-1 rounded">
+                                    ${card.trend}
+                                </span>
+                            </div>
+                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider">${card.label}</h3>
+                            <p class="text-3xl font-bold mt-1">${card.value}</p>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Progress Chart Placeholder -->
+                    <div class="lg:col-span-2 glass p-8 rounded-2xl">
+                        <div class="flex justify-between items-center mb-8">
+                            <h3 class="text-lg font-bold">Crescimento de Matrículas</h3>
+                            <select class="bg-black/40 border border-gray-800 text-xs p-2 rounded outline-none">
+                                <option>Últimos 6 meses</option>
+                                <option>Último ano</option>
+                            </select>
+                        </div>
+                        <div class="h-64 flex items-end gap-2 md:gap-4">
+                            ${[40, 60, 45, 90, 75, 100].map((h, i) => `
+                                <div class="flex-grow flex flex-col items-center group">
+                                    <div class="w-full bg-blue-600/20 rounded-t-lg relative group-hover:bg-blue-600/40 transition-all overflow-hidden" style="height: ${h}%">
+                                        <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,1)]"></div>
+                                    </div>
+                                    <span class="text-[10px] text-gray-500 mt-2 font-bold">${['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'][i]}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="glass p-8 rounded-2xl">
+                        <h3 class="text-lg font-bold mb-6">Atividade em Tempo Real</h3>
+                        <div class="space-y-6">
+                            ${[
+                                { user: 'Ana Silva', action: 'concluiu UX Design', time: '2m atrás' },
+                                { user: 'Carlos M.', action: 'iniciou Python DS', time: '15m atrás' },
+                                { user: 'Juliana R.', action: 'ganhou certificado React', time: '1h atrás' },
+                                { user: 'Marcos P.', action: 'avaliou curso 5 estrelas', time: '3h atrás' }
+                            ].map(item => `
+                                <div class="flex gap-4 items-start">
+                                    <div class="w-2 h-2 rounded-full bg-blue-500 mt-2 animate-pulse"></div>
+                                    <div class="flex-grow">
+                                        <p class="text-sm font-bold text-gray-200">${item.user} <span class="font-normal text-gray-500">${item.action}</span></p>
+                                        <p class="text-[10px] text-gray-600 uppercase font-bold mt-1">${item.time}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="w-full mt-8 py-3 text-sm font-bold text-gray-400 hover:text-white border border-gray-800 rounded-lg hover:bg-white/5 transition">Ver Todo o Log</button>
+                    </div>
+                </div>
+
+                <!-- Course Table -->
+                <div class="glass rounded-2xl overflow-hidden">
+                    <div class="p-8 border-b border-gray-800 flex justify-between items-center">
+                        <h3 class="text-lg font-bold">Gestão de Cursos Ativos</h3>
+                        <button class="p-2 glass rounded-lg hover:text-blue-500 transition"><i data-lucide="plus" class="w-5 h-5"></i></button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-gray-500 text-[10px] uppercase tracking-widest bg-white/2">
+                                    <th class="p-6 font-bold">Curso</th>
+                                    <th class="p-6 font-bold">Status</th>
+                                    <th class="p-6 font-bold">Matrículas</th>
+                                    <th class="p-6 font-bold">Avaliação</th>
+                                    <th class="p-6 font-bold">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800">
+                                ${COURSES.map(c => `
+                                    <tr class="hover:bg-white/5 transition group">
+                                        <td class="p-6">
+                                            <div class="flex items-center gap-4">
+                                                <img src="${c.image}" class="w-12 h-12 rounded object-cover">
+                                                <span class="font-bold text-sm">${c.title}</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-6">
+                                            <span class="px-3 py-1 bg-green-500/10 text-green-500 text-[10px] font-bold rounded-full">ATIVO</span>
+                                        </td>
+                                        <td class="p-6 text-sm text-gray-400">1,402</td>
+                                        <td class="p-6">
+                                            <div class="flex items-center gap-1 text-yellow-500">
+                                                <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                                <span class="text-xs font-bold text-gray-300">4.9</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-6">
+                                            <div class="flex gap-4 text-gray-600 group-hover:text-gray-400">
+                                                <button title="Editar"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
+                                                <button title="Análise"><i data-lucide="bar-chart-2" class="w-4 h-4"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>`;
         }
 
         function openModal(id) {
@@ -276,14 +346,13 @@
                 <div class="relative">
                     <div class="aspect-video w-full relative">
                         <img src="${c.image}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#181818] to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#121212] to-transparent"></div>
                     </div>
                     <div class="p-8 space-y-6">
                         <h2 class="text-3xl md:text-5xl font-bold">${c.title}</h2>
                         <p class="text-gray-300 text-lg">${c.description}</p>
                         <div class="flex gap-4">
-                            <button class="flex-grow md:flex-none px-12 py-3 bg-white text-black font-bold rounded hover:bg-blue-600 hover:text-white transition">ASSISTIR</button>
-                            <button class="p-3 bg-gray-800 rounded-full hover:bg-gray-700 transition"><i data-lucide="plus" class="w-6 h-6"></i></button>
+                            <button class="px-12 py-3 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition">MATRICULAR-SE</button>
                         </div>
                     </div>
                 </div>`;
@@ -300,18 +369,14 @@
         }
 
         function toggleMobileMenu() {
-            const nav = document.getElementById('mobile-nav');
-            nav.classList.toggle('hidden');
+            document.getElementById('mobile-nav').classList.toggle('hidden');
         }
 
-        // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             nav.classList.toggle('bg-black', window.scrollY > 50);
-            nav.classList.toggle('shadow-xl', window.scrollY > 50);
         });
 
-        // Init
         document.addEventListener('DOMContentLoaded', () => router('home'));
     </script>
 </body>
