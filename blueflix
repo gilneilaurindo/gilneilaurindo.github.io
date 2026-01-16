@@ -152,11 +152,20 @@
                 </ul>
             </div>
              <div>
-                <h4 class="text-white font-bold mb-4">Social</h4>
+                <h4 class="text-white font-bold mb-4">Social & Contato</h4>
                 <div class="flex gap-4">
-                    <div class="w-8 h-8 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition cursor-pointer text-white"><i data-lucide="instagram" class="w-4 h-4"></i></div>
-                    <div class="w-8 h-8 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition cursor-pointer text-white"><i data-lucide="twitter" class="w-4 h-4"></i></div>
-                    <div class="w-8 h-8 rounded-full bg-gray-800 hover:bg-blue-600 flex items-center justify-center transition cursor-pointer text-white"><i data-lucide="linkedin" class="w-4 h-4"></i></div>
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/gilneycriative/" target="_blank" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-pink-600 flex items-center justify-center transition cursor-pointer text-white transform hover:scale-110" title="Instagram">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    </a>
+                    <!-- E-mail -->
+                    <a href="mailto:gilneycriative@gmail.com" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-red-600 flex items-center justify-center transition cursor-pointer text-white transform hover:scale-110" title="Enviar E-mail">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                    </a>
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/5584921466248" target="_blank" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-green-500 flex items-center justify-center transition cursor-pointer text-white transform hover:scale-110" title="WhatsApp">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -167,30 +176,30 @@
     </footer>
 
     <script>
-        // --- DADOS (Expandido com mais imagens e cursos) ---
+        // --- DADOS (Atualizado com imagens corrigidas) ---
         const COURSES = [
             // Tech
-            { id: 1, title: 'React Masterclass', description: 'O guia definitivo para React 18. Hooks, Context e Redux Toolkit.', category: 'tech', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80', progress: 45, duration: '12h 30m', rating: '98%', isTrending: true },
-            { id: 4, title: 'Python AI & Data', description: 'Machine Learning do zero ao avançado com Scikit e TensorFlow.', category: 'tech', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1200&q=80', progress: 80, duration: '18h 45m', rating: '97%', isTrending: true },
-            { id: 7, title: 'Arquitetura Cloud', description: 'AWS e Azure para arquitetos de software modernos.', category: 'tech', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80', progress: 0, duration: '15h 30m', rating: '99%', isTrending: false },
-            { id: 9, title: 'DevOps Moderno', description: 'CI/CD, Docker e Kubernetes na prática.', category: 'tech', image: 'https://images.unsplash.com/photo-1667372393119-c81c0c27a729?w=1200&q=80', progress: 5, duration: '20h 10m', rating: '96%', isTrending: true },
-            { id: 10, title: 'Cybersecurity 101', description: 'Protegendo aplicações web contra ataques comuns.', category: 'tech', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1200&q=80', progress: 0, duration: '10h 00m', rating: '95%', isTrending: false },
+            { id: 1, title: 'React Masterclass', description: 'O guia definitivo para React 18. Hooks, Context e Redux Toolkit.', category: 'tech', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80', progress: 45, duration: '12h 30m', rating: '98%', isTrending: true },
+            { id: 4, title: 'Python AI & Data', description: 'Machine Learning do zero ao avançado com Scikit e TensorFlow.', category: 'tech', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80', progress: 80, duration: '18h 45m', rating: '97%', isTrending: true },
+            { id: 7, title: 'Arquitetura Cloud', description: 'AWS e Azure para arquitetos de software modernos.', category: 'tech', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80', progress: 0, duration: '15h 30m', rating: '99%', isTrending: false },
+            { id: 9, title: 'DevOps Moderno', description: 'CI/CD, Docker e Kubernetes na prática.', category: 'tech', image: 'https://images.unsplash.com/photo-1607799275518-d58665d099db?w=800&q=80', progress: 5, duration: '20h 10m', rating: '96%', isTrending: true },
+            { id: 10, title: 'Cybersecurity 101', description: 'Protegendo aplicações web contra ataques comuns.', category: 'tech', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', progress: 0, duration: '10h 00m', rating: '95%', isTrending: false },
 
             // Design
-            { id: 2, title: 'UX/UI Design', description: 'Psicologia das cores, tipografia e prototipagem no Figma.', category: 'design', image: 'https://images.unsplash.com/photo-1586717791821-3f44a5638d48?w=1200&q=80', progress: 10, duration: '8h 15m', rating: '95%', isTrending: false },
-            { id: 6, title: 'Fotografia Digital', description: 'Domine a luz e a composição para fotos cinematográficas.', category: 'design', image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1200&q=80', progress: 0, duration: '10h 00m', rating: '94%', isTrending: false },
-            { id: 11, title: 'Motion Graphics', description: 'Animações fluidas com After Effects.', category: 'design', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&q=80', progress: 0, duration: '14h 20m', rating: '92%', isTrending: true },
+            { id: 2, title: 'UX/UI Design', description: 'Psicologia das cores, tipografia e prototipagem no Figma.', category: 'design', image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&q=80', progress: 10, duration: '8h 15m', rating: '95%', isTrending: false },
+            { id: 6, title: 'Fotografia Digital', description: 'Domine a luz e a composição para fotos cinematográficas.', category: 'design', image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80', progress: 0, duration: '10h 00m', rating: '94%', isTrending: false },
+            { id: 11, title: 'Motion Graphics', description: 'Animações fluidas com After Effects.', category: 'design', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80', progress: 0, duration: '14h 20m', rating: '92%', isTrending: true },
             
             // Business
-            { id: 3, title: 'Growth Marketing', description: 'Estratégias de SEO e tráfego pago para escalar startups.', category: 'business', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80', progress: 0, duration: '22h 00m', rating: '99%', isTrending: true },
-            { id: 5, title: 'Liderança Ágil', description: 'Scrum e Kanban para gestores de alta performance.', category: 'business', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80', progress: 0, duration: '6h 20m', rating: '92%', isTrending: false },
-            { id: 8, title: 'Finanças ESG', description: 'Sustentabilidade e governança corporativa.', category: 'business', image: 'https://images.unsplash.com/photo-1611974765270-ca12586343bb?w=1200&q=80', progress: 0, duration: '5h 00m', rating: '90%', isTrending: false },
-            { id: 12, title: 'Oratória Master', description: 'Fale em público com confiança e clareza.', category: 'business', image: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=1200&q=80', progress: 30, duration: '4h 30m', rating: '98%', isTrending: true },
-            
-             // More Mock
-            { id: 13, title: 'Blockchain Dev', description: 'Smart Contracts com Solidity e Ethereum.', category: 'tech', image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&q=80', progress: 0, duration: '16h 00m', rating: '93%', isTrending: false },
-            { id: 14, title: 'Product Management', description: 'Do MVP ao Product Market Fit.', category: 'business', image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1200&q=80', progress: 0, duration: '9h 15m', rating: '96%', isTrending: true },
-            { id: 15, title: 'Mobile Flutter', description: 'Apps iOS e Android com uma única base de código.', category: 'tech', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=1200&q=80', progress: 0, duration: '18h 30m', rating: '97%', isTrending: true },
+            { id: 3, title: 'Growth Marketing', description: 'Estratégias de SEO e tráfego pago para escalar startups.', category: 'business', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', progress: 0, duration: '22h 00m', rating: '99%', isTrending: true },
+            { id: 5, title: 'Liderança Ágil', description: 'Scrum e Kanban para gestores de alta performance.', category: 'business', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80', progress: 0, duration: '6h 20m', rating: '92%', isTrending: false },
+            { id: 8, title: 'Finanças ESG', description: 'Sustentabilidade e governança corporativa.', category: 'business', image: 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=800&q=80', progress: 0, duration: '5h 00m', rating: '90%', isTrending: false },
+            { id: 12, title: 'Oratória Master', description: 'Fale em público com confiança e clareza.', category: 'business', image: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=800&q=80', progress: 30, duration: '4h 30m', rating: '98%', isTrending: true },
+
+            // Extra
+            { id: 13, title: 'Blockchain Dev', description: 'Smart Contracts com Solidity e Ethereum.', category: 'tech', image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80', progress: 0, duration: '16h 00m', rating: '93%', isTrending: false },
+            { id: 14, title: 'Product Management', description: 'Do MVP ao Product Market Fit.', category: 'business', image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&q=80', progress: 0, duration: '9h 15m', rating: '96%', isTrending: true },
+            { id: 15, title: 'Mobile Flutter', description: 'Apps iOS e Android com uma única base de código.', category: 'tech', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80', progress: 0, duration: '18h 30m', rating: '97%', isTrending: true },
         ];
 
         const CATEGORIES = [
