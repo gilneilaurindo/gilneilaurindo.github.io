@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueFlix EAD - Corporate Learning</title>
     
+    <!-- Favicon Customizado -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/galeria%2001/img/favicon.png">
+
     <!-- --- METADADOS PARA REDES SOCIAIS (OPEN GRAPH) --- -->
     <!-- Título que aparece no compartilhamento -->
     <meta property="og:title" content="BlueFlix EAD - A Revolução do Ensino Corporativo">
     
-     <!-- Favicon Customizado -->
-
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/galeria%2001/img/favicon.png">
     <!-- Descrição estratégica para atrair cliques -->
     <meta property="og:description" content="Transforme sua carreira com a melhor plataforma de ensino estilo streaming. Cursos de Tecnologia, Design e Negócios com qualidade cinematográfica. Acesse agora a versão demo!">
     
@@ -108,6 +108,8 @@
                     BLUE<span class="text-white">FLIX</span>
                     <span class="ml-3 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-900/50 text-blue-200 border border-blue-500/30 uppercase tracking-widest">Demo</span>
                 </h1>
+                
+                <!-- Desktop Menu -->
                 <ul class="hidden md:flex gap-6 text-sm font-medium text-gray-300" id="nav-links">
                     <li onclick="router('home')" class="cursor-pointer hover:text-blue-400 transition text-white font-bold" data-page="home">Início</li>
                     <li onclick="router('courses')" class="cursor-pointer hover:text-blue-400 transition" data-page="courses">Cursos</li>
@@ -116,17 +118,44 @@
                 </ul>
             </div>
             
-            <div class="flex items-center gap-6 text-white">
-                <i data-lucide="search" onclick="showDemoToast('A busca está desativada nesta demonstração.')" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition hover:scale-110"></i>
-                <i data-lucide="bell" onclick="showDemoToast('Sem novas notificações no modo demo.')" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition hover:scale-110"></i>
+            <div class="flex items-center gap-4 md:gap-6 text-white">
+                <i data-lucide="search" onclick="showDemoToast('A busca está desativada nesta demonstração.')" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition hover:scale-110 hidden md:block"></i>
+                <i data-lucide="bell" onclick="showDemoToast('Sem novas notificações no modo demo.')" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition hover:scale-110 hidden md:block"></i>
+                
                 <div onclick="router('admin')" class="flex items-center gap-2 cursor-pointer group">
                     <div class="w-8 h-8 rounded bg-gradient-to-br from-blue-700 to-blue-900 flex items-center justify-center overflow-hidden border border-transparent group-hover:border-white transition shadow-lg shadow-blue-900/50 group-hover:scale-110">
                         <i data-lucide="user" class="w-5 h-5"></i>
                     </div>
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white hover:text-blue-500 transition p-1">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-black/95 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col items-center justify-center space-y-8 backdrop-blur-sm">
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-white p-2 hover:text-blue-500 transition">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        
+        <div class="text-4xl font-bold text-blue-600 tracking-tighter mb-8 animate-fadeIn">
+            BLUE<span class="text-white">FLIX</span>
+        </div>
+        
+        <a onclick="router('home'); toggleMobileMenu()" class="text-2xl font-bold text-white cursor-pointer hover:text-blue-500 transition transform hover:scale-110">Início</a>
+        <a onclick="router('courses'); toggleMobileMenu()" class="text-2xl font-bold text-gray-400 cursor-pointer hover:text-blue-500 transition transform hover:scale-110">Cursos</a>
+        <a onclick="router('certificates'); toggleMobileMenu()" class="text-2xl font-bold text-gray-400 cursor-pointer hover:text-blue-500 transition transform hover:scale-110">Certificados</a>
+        <a onclick="router('admin'); toggleMobileMenu()" class="text-2xl font-bold text-gray-400 cursor-pointer hover:text-blue-500 transition transform hover:scale-110">Dashboard</a>
+        
+        <div class="flex gap-6 mt-8">
+            <i data-lucide="search" class="w-6 h-6 text-gray-400"></i>
+            <i data-lucide="bell" class="w-6 h-6 text-gray-400"></i>
+        </div>
+    </div>
 
     <!-- Main Content Container -->
     <main id="app-content" class="min-h-screen">
@@ -134,7 +163,7 @@
     </main>
 
     <!-- Modal (Escondido por padrão) -->
-    <div id="course-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="course-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
         <div id="modal-overlay" class="absolute inset-0 bg-black/90" onclick="closeModal()"></div>
         <div class="relative w-full max-w-5xl bg-[#181818] rounded-xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col max-h-[90vh] overflow-y-auto custom-scrollbar transform scale-95 transition-transform duration-300" id="modal-panel">
             <button onclick="closeModal()" class="absolute top-4 right-4 z-30 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition">
@@ -662,6 +691,15 @@
                     left: direction === 'left' ? -scrollAmount : scrollAmount,
                     behavior: 'smooth'
                 });
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('translate-x-full')) {
+                menu.classList.remove('translate-x-full');
+            } else {
+                menu.classList.add('translate-x-full');
             }
         }
 
