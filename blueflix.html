@@ -12,446 +12,758 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-<!-- Favicon Customizado -->
-    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/gilneilaurindo/gilneilaurindo.github.io/main/galeria%2001/img/favicon.png">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: white; overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: #141414; color: white; overflow-x: hidden; }
         
-        /* Esconder Scrollbar */
+        /* Esconder Scrollbar mas manter funcionalidade */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Animação de Zoom Lento (Ken Burns) focada na direita */
-        @keyframes slowZoom {
-            from { transform: scale(1); transform-origin: right center; }
-            to { transform: scale(1.15); transform-origin: right center; }
+        /* --- ANIMAÇÕES --- */
+        
+        /* Intro Loader */
+        .loader-container {
+            position: fixed; inset: 0; background-color: #000; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            animation: fadeOutLoader 0.5s ease-out 2.5s forwards;
         }
-        .animate-slowZoom { animation: slowZoom 20s linear infinite alternate; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .animate-fadeIn { animation: fadeIn 0.6s ease-out; }
-        
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .animate-slideUp { animation: slideUp 0.8s ease-out forwards; }
+        .loader-logo {
+            font-size: 4rem; font-weight: 900; letter-spacing: -2px;
+            animation: pulseLogo 2s infinite;
+        }
+        @keyframes pulseLogo {
+            0% { transform: scale(1); opacity: 1; text-shadow: 0 0 10px rgba(37, 99, 235, 0.5); }
+            50% { transform: scale(1.1); opacity: 0.8; text-shadow: 0 0 20px rgba(37, 99, 235, 0.8); }
+            100% { transform: scale(1); opacity: 1; text-shadow: 0 0 10px rgba(37, 99, 235, 0.5); }
+        }
+        @keyframes fadeOutLoader { to { opacity: 0; visibility: hidden; } }
 
-        /* Efeito de Vidro (Glassmorphism) */
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .card-hover:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(59, 130, 246, 0.5); transform: translateY(-4px); transition: all 0.3s ease; }
+        /* Hero Crossfade */
+        .hero-bg {
+            transition: opacity 1s ease-in-out, transform 10s ease-out;
+        }
+        .hero-content-anim {
+            animation: slideUpFade 0.8s ease-out forwards;
+        }
+
+        @keyframes slideUpFade { 
+            from { transform: translateY(30px); opacity: 0; } 
+            to { transform: translateY(0); opacity: 1; } 
+        }
+
+        /* Toast Animation */
+        @keyframes slideInDown {
+            from { transform: translate(100%, 0); opacity: 0; }
+            to { transform: translate(0, 0); opacity: 1; }
+        }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        .toast-enter { animation: slideInDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .toast-exit { animation: fadeOut 0.3s ease forwards; }
+
+        /* Hover Cards */
+        .course-card:hover img { transform: scale(1.1); }
         
-        /* Sidebar Estilo Moodle */
-        .category-item:hover { background: rgba(59, 130, 246, 0.1); color: #60a5fa; }
-        .category-active { background: rgba(59, 130, 246, 0.2); color: #60a5fa; border-left: 4px solid #3b82f6; }
+        /* Classes para o Modal */
+        #modal-overlay { backdrop-filter: blur(8px); }
     </style>
 </head>
-<body class="selection:bg-blue-600 selection:text-white flex flex-col min-h-screen">
+<body class="selection:bg-blue-600 selection:text-white pb-12">
+
+    <!-- INTRO LOADER -->
+    <div class="loader-container">
+        <h1 class="loader-logo text-blue-600">BLUE<span class="text-white">FLIX</span></h1>
+    </div>
 
     <!-- Navbar -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-gradient-to-b from-black/90 to-transparent border-b border-white/5">
-        <div class="flex items-center justify-between px-4 md:px-12 py-3 md:py-4">
-            <div class="flex items-center gap-4 md:gap-8">
-                <h1 onclick="router('home')" class="text-2xl md:text-3xl font-bold text-blue-600 tracking-tighter cursor-pointer hover:scale-105 transition-transform">
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-500 bg-gradient-to-b from-black/90 to-transparent">
+        <div class="flex items-center justify-between px-4 md:px-12 py-4">
+            <div class="flex items-center gap-8">
+                <!-- Logo com Badge DEMO discreto -->
+                <h1 onclick="router('home')" class="text-3xl font-bold text-blue-600 tracking-tighter cursor-pointer hover:scale-105 transition-transform flex items-center shadow-blue-500/20 drop-shadow-lg">
                     BLUE<span class="text-white">FLIX</span>
+                    <span class="ml-3 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-900/50 text-blue-200 border border-blue-500/30 uppercase tracking-widest">Demo</span>
                 </h1>
-                <ul class="hidden lg:flex gap-6 text-sm font-medium text-gray-300" id="nav-links">
-                    <li onclick="router('home')" class="cursor-pointer hover:text-blue-400 transition" data-page="home">Início</li>
+                <ul class="hidden md:flex gap-6 text-sm font-medium text-gray-300" id="nav-links">
+                    <li onclick="router('home')" class="cursor-pointer hover:text-blue-400 transition text-white font-bold" data-page="home">Início</li>
                     <li onclick="router('courses')" class="cursor-pointer hover:text-blue-400 transition" data-page="courses">Cursos</li>
                     <li onclick="router('certificates')" class="cursor-pointer hover:text-blue-400 transition" data-page="certificates">Certificados</li>
                     <li onclick="router('admin')" class="cursor-pointer hover:text-blue-400 transition" data-page="admin">Dashboard</li>
                 </ul>
             </div>
             
-            <div class="flex items-center gap-4 md:gap-6 text-white">
-                <div class="hidden md:flex relative group w-64">
-                    <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-gray-500"></i>
-                    <input type="text" placeholder="Buscar cursos..." class="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-10 pr-4 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500 transition">
-                </div>
-                <button onclick="toggleMobileMenu()" class="lg:hidden p-1"><i data-lucide="menu" class="w-6 h-6"></i></button>
-                <i data-lucide="bell" class="hidden sm:block w-5 h-5 cursor-pointer hover:text-blue-500 transition"></i>
-                <div onclick="router('admin')" class="w-8 h-8 rounded bg-blue-700 flex items-center justify-center cursor-pointer hover:ring-2 ring-white transition overflow-hidden border border-white/20">
-                    <img src="https://ui-avatars.com/api/?name=Gilnei+Laurindo&background=2563eb&color=fff" alt="Perfil">
+            <div class="flex items-center gap-6 text-white">
+                <i data-lucide="search" onclick="showDemoToast('A busca está desativada nesta demonstração.')" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition hover:scale-110"></i>
+                <i data-lucide="bell" onclick="showDemoToast('Sem novas notificações no modo demo.')" class="w-5 h-5 cursor-pointer hover:text-blue-500 transition hover:scale-110"></i>
+                <div onclick="router('admin')" class="flex items-center gap-2 cursor-pointer group">
+                    <div class="w-8 h-8 rounded bg-gradient-to-br from-blue-700 to-blue-900 flex items-center justify-center overflow-hidden border border-transparent group-hover:border-white transition shadow-lg shadow-blue-900/50 group-hover:scale-110">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Menu Mobile -->
-        <div id="mobile-nav" class="hidden lg:hidden bg-black/95 border-b border-gray-800 animate-fadeIn">
-            <ul class="flex flex-col p-6 gap-4 text-center font-bold text-gray-300">
-                <li onclick="router('home'); toggleMobileMenu()">Início</li>
-                <li onclick="router('courses'); toggleMobileMenu()">Cursos</li>
-                <li onclick="router('certificates'); toggleMobileMenu()">Certificados</li>
-                <li onclick="router('admin'); toggleMobileMenu()">Dashboard</li>
-            </ul>
-        </div>
     </nav>
 
-    <!-- Main Content -->
-    <main id="app-content" class="flex-grow min-h-screen">
-        <!-- Conteúdo via JS -->
+    <!-- Main Content Container -->
+    <main id="app-content" class="min-h-screen">
+        <!-- O conteúdo será injetado aqui via JavaScript -->
     </main>
 
-    <!-- Modal de Curso -->
-    <div id="course-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-0 md:p-4 animate-fadeIn">
-        <div id="modal-overlay" class="absolute inset-0 bg-black/80" onclick="closeModal()"></div>
-        <div class="relative w-full max-w-5xl bg-[#0a0a0a] md:rounded-xl overflow-hidden shadow-2xl border border-white/10 flex flex-col h-full md:h-auto md:max-h-[90vh] overflow-y-auto scrollbar-hide">
-            <button onclick="closeModal()" class="fixed md:absolute top-4 right-4 z-[70] w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition">
+    <!-- Modal (Escondido por padrão) -->
+    <div id="course-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="modal-overlay" class="absolute inset-0 bg-black/90" onclick="closeModal()"></div>
+        <div class="relative w-full max-w-5xl bg-[#181818] rounded-xl overflow-hidden shadow-2xl border border-gray-800 flex flex-col max-h-[90vh] overflow-y-auto custom-scrollbar transform scale-95 transition-transform duration-300" id="modal-panel">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-30 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-black transition">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <div id="modal-content"></div>
         </div>
     </div>
 
+    <!-- TOAST Notification Container (Canto Superior Direito) -->
+    <div id="toast-container" class="fixed top-24 right-5 z-[80] pointer-events-none flex flex-col gap-3 items-end"></div>
+
     <!-- Footer -->
-    <footer class="w-full bg-black/90 text-gray-500 py-12 px-6 md:px-12 border-t border-gray-900 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <h2 class="text-xl font-bold text-white tracking-tighter">BLUE<span class="text-blue-600">FLIX</span></h2>
-            <p class="text-xs">© 2024 Gilnei Laurindo. Todos os direitos reservados.</p>
-            <div class="flex gap-6 text-xs uppercase font-bold">
-                <span class="hover:text-blue-500 cursor-pointer transition">Privacidade</span>
-                <span class="hover:text-blue-500 cursor-pointer transition">Suporte</span>
+    <footer class="w-full bg-black text-gray-500 py-16 px-4 md:px-12 mt-20 border-t border-gray-900">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-sm">
+            <div>
+                <h4 class="text-white font-bold mb-4">BlueFlix EAD</h4>
+                <ul class="space-y-2">
+                    <li class="hover:text-blue-500 cursor-pointer transition">Sobre nós</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition">Carreiras</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition">Imprensa</li>
+                </ul>
             </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Comunidade</h4>
+                <ul class="space-y-2">
+                    <li class="hover:text-blue-500 cursor-pointer transition">Blog Tech</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition">Desenvolvedores</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition">Eventos</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-4">Legal</h4>
+                <ul class="space-y-2">
+                    <li onclick="showDemoToast('Privacidade off.')" class="hover:text-blue-500 cursor-pointer transition">Privacidade</li>
+                    <li onclick="showDemoToast('Termos off.')" class="hover:text-blue-500 cursor-pointer transition">Termos de Uso</li>
+                    <li class="hover:text-blue-500 cursor-pointer transition">Cookies</li>
+                </ul>
+            </div>
+             <div>
+                <h4 class="text-white font-bold mb-4">Social & Contato</h4>
+                <div class="flex gap-4">
+                    <!-- Instagram -->
+                    <a href="https://www.instagram.com/gilneycriative/" target="_blank" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-pink-600 flex items-center justify-center transition cursor-pointer text-white transform hover:scale-110" title="Instagram">
+                        <i data-lucide="instagram" class="w-4 h-4"></i>
+                    </a>
+                    <!-- E-mail -->
+                    <a href="mailto:gilneycriative@gmail.com" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-red-600 flex items-center justify-center transition cursor-pointer text-white transform hover:scale-110" title="Enviar E-mail">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                    </a>
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/5584921466248" target="_blank" class="w-8 h-8 rounded-full bg-gray-800 hover:bg-green-500 flex items-center justify-center transition cursor-pointer text-white transform hover:scale-110" title="WhatsApp">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+            <p>© 2024 Gilnei Laurindo. Todos os direitos reservados.</p>
+            <p class="px-2 py-1 border border-gray-700 rounded text-gray-400">Ambiente de Demonstração v2.0</p>
         </div>
     </footer>
 
     <script>
+        // --- DADOS (Atualizado com imagens corrigidas) ---
         const COURSES = [
-            { id: 1, title: 'React Masterclass 2024', description: 'Domine a biblioteca mais popular do mundo. Aprenda Hooks, Context API e Redux.', category: 'tecnologia', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200', progress: 45, duration: '12h 30m', rating: '98%', lessons: 24 },
-            { id: 2, title: 'UX Design Avançado', description: 'Crie experiências inesquecíveis. Psicologia aplicada ao produto e design systems.', category: 'design', image: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1200', progress: 10, duration: '15h 15m', rating: '99%', lessons: 18 },
-            { id: 3, title: 'Marketing Digital 360', description: 'Estratégias de SEO e tráfego pago para escalar negócios no digital.', category: 'negocios', image: 'https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=1200', progress: 0, duration: '22h 00m', rating: '99%', lessons: 30 },
-            { id: 4, title: 'Python para Data Science', description: 'Machine Learning com Pandas, NumPy e Scikit-learn para análise real.', category: 'tecnologia', image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1200', progress: 80, duration: '18h 45m', rating: '97%', lessons: 42 },
-            { id: 5, title: 'Liderança Ágil', description: 'Gestão de times com Scrum e Kanban no mundo corporativo moderno.', category: 'negocios', image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200', progress: 0, duration: '6h 20m', rating: '92%', lessons: 12 }
+            // Tech
+            { id: 1, title: 'React Masterclass', description: 'O guia definitivo para React 18. Hooks, Context e Redux Toolkit.', category: 'tech', image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80', progress: 45, duration: '12h 30m', rating: '98%', isTrending: true },
+            { id: 4, title: 'Python AI & Data', description: 'Machine Learning do zero ao avançado com Scikit e TensorFlow.', category: 'tech', image: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80', progress: 80, duration: '18h 45m', rating: '97%', isTrending: true },
+            { id: 7, title: 'Arquitetura Cloud', description: 'AWS e Azure para arquitetos de software modernos.', category: 'tech', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80', progress: 0, duration: '15h 30m', rating: '99%', isTrending: false },
+            { id: 9, title: 'DevOps Moderno', description: 'CI/CD, Docker e Kubernetes na prática.', category: 'tech', image: 'https://images.unsplash.com/photo-1607799275518-d58665d099db?w=800&q=80', progress: 5, duration: '20h 10m', rating: '96%', isTrending: true },
+            { id: 10, title: 'Cybersecurity 101', description: 'Protegendo aplicações web contra ataques comuns.', category: 'tech', image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80', progress: 0, duration: '10h 00m', rating: '95%', isTrending: false },
+
+            // Design
+            { id: 2, title: 'UX/UI Design', description: 'Psicologia das cores, tipografia e prototipagem no Figma.', category: 'design', image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&q=80', progress: 10, duration: '8h 15m', rating: '95%', isTrending: false },
+            { id: 6, title: 'Fotografia Digital', description: 'Domine a luz e a composição para fotos cinematográficas.', category: 'design', image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=800&q=80', progress: 0, duration: '10h 00m', rating: '94%', isTrending: false },
+            { id: 11, title: 'Motion Graphics', description: 'Animações fluidas com After Effects.', category: 'design', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80', progress: 0, duration: '14h 20m', rating: '92%', isTrending: true },
+            
+            // Business
+            { id: 3, title: 'Growth Marketing', description: 'Estratégias de SEO e tráfego pago para escalar startups.', category: 'business', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', progress: 0, duration: '22h 00m', rating: '99%', isTrending: true },
+            { id: 5, title: 'Liderança Ágil', description: 'Scrum e Kanban para gestores de alta performance.', category: 'business', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80', progress: 0, duration: '6h 20m', rating: '92%', isTrending: false },
+            { id: 8, title: 'Finanças ESG', description: 'Sustentabilidade e governança corporativa.', category: 'business', image: 'https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=800&q=80', progress: 0, duration: '5h 00m', rating: '90%', isTrending: false },
+            { id: 12, title: 'Oratória Master', description: 'Fale em público com confiança e clareza.', category: 'business', image: 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?w=800&q=80', progress: 30, duration: '4h 30m', rating: '98%', isTrending: true },
+
+            // Extra
+            { id: 13, title: 'Blockchain Dev', description: 'Smart Contracts com Solidity e Ethereum.', category: 'tech', image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&q=80', progress: 0, duration: '16h 00m', rating: '93%', isTrending: false },
+            { id: 14, title: 'Product Management', description: 'Do MVP ao Product Market Fit.', category: 'business', image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&q=80', progress: 0, duration: '9h 15m', rating: '96%', isTrending: true },
+            { id: 15, title: 'Mobile Flutter', description: 'Apps iOS e Android com uma única base de código.', category: 'tech', image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80', progress: 0, duration: '18h 30m', rating: '97%', isTrending: true },
         ];
 
         const CATEGORIES = [
-            { id: 'tecnologia', title: 'Tecnologia', icon: 'code' },
-            { id: 'design', title: 'Design & UX', icon: 'palette' },
-            { id: 'negocios', title: 'Negócios', icon: 'briefcase' }
+            { id: 'trending', title: '🔥 Em Alta na BlueFlix' },
+            { id: 'continue', title: '▶️ Continue de onde parou' },
+            { id: 'tech', title: '💻 Tecnologia e Código' },
+            { id: 'business', title: '💼 Negócios e Carreira' },
+            { id: 'design', title: '🎨 Design e Criatividade' },
         ];
 
-        const HERO_IMAGE_URL = 'https://media.licdn.com/dms/image/v2/D4D16AQExFTwIMD3Rsg/profile-displaybackgroundimage-shrink_350_1400/B4DZX75gv6HAAk-/0/1743687913643?e=1770249600&v=beta&t=ruXMOdm9Y-gK1Q-KqeuyrI-s7xlqyA1WNDCKLF9nYW0';
+        const EMPLOYEES = [
+            { id: 1, name: 'Ana Silva', role: 'Dev Frontend', courses: 12, hours: 45, status: 'Ativo' },
+            { id: 2, name: 'Carlos Souza', role: 'UX Designer', courses: 8, hours: 22, status: 'Pendente' },
+            { id: 3, name: 'Mariana Lima', role: 'Product Owner', courses: 15, hours: 60, status: 'Ativo' },
+            { id: 4, name: 'João Pedro', role: 'Dev Backend', courses: 5, hours: 10, status: 'Inativo' },
+        ];
 
-        function router(page, filter = null) {
-            const app = document.getElementById('app-content');
-            window.scrollTo(0, 0);
+        // --- VARIAVEIS GLOBAIS ---
+        let heroInterval;
+        let currentHeroIndex = 0;
 
-            document.querySelectorAll('#nav-links li').forEach(li => {
-                li.classList.toggle('text-white', li.dataset.page === page);
-                li.classList.toggle('font-bold', li.dataset.page === page);
-            });
-
-            if (page === 'home') app.innerHTML = renderHero() + renderHomeDashboard();
-            else if (page === 'courses') app.innerHTML = renderCatalog(filter);
-            else if (page === 'certificates') app.innerHTML = renderCertificates();
-            else if (page === 'admin') app.innerHTML = renderAdmin();
-
+        // --- SISTEMA DE TOAST (DEMO) ---
+        function showDemoToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-gray-800/90 backdrop-blur border-l-4 border-blue-500 text-white px-4 py-3 rounded shadow-2xl flex items-center gap-3 toast-enter font-medium text-sm pointer-events-auto min-w-[250px]';
+            toast.innerHTML = `<i data-lucide="info" class="w-5 h-5 text-blue-400"></i><span>${message}</span>`;
+            container.appendChild(toast);
             lucide.createIcons();
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
+
+        // --- LOGICA DO HERO CAROUSEL ---
+        function startHeroRotation() {
+            const trendingCourses = COURSES.filter(c => c.isTrending).slice(0, 5);
+            if (trendingCourses.length === 0) return;
+
+            // Limpa intervalo anterior se existir
+            if (heroInterval) clearInterval(heroInterval);
+
+            heroInterval = setInterval(() => {
+                currentHeroIndex = (currentHeroIndex + 1) % trendingCourses.length;
+                updateHero(trendingCourses[currentHeroIndex]);
+            }, 5000); // Muda a cada 5 segundos
+        }
+
+        function updateHero(course) {
+            const heroBg = document.getElementById('hero-bg-img');
+            const heroTitle = document.getElementById('hero-title');
+            const heroDesc = document.getElementById('hero-desc');
+            const heroInfo = document.getElementById('hero-info-btn');
+            const heroPlay = document.getElementById('hero-play-btn');
+
+            if (!heroBg) return;
+
+            // Fade out
+            heroBg.style.opacity = 0;
+            
+            setTimeout(() => {
+                // Update Data
+                heroBg.src = course.image;
+                heroTitle.textContent = course.title;
+                heroDesc.textContent = course.description;
+                
+                // Update Button Click events
+                heroInfo.setAttribute('onclick', `openModal(${course.id})`);
+                heroPlay.setAttribute('onclick', `openModal(${course.id})`);
+
+                // Re-trigger animations for text
+                heroTitle.classList.remove('hero-content-anim');
+                void heroTitle.offsetWidth; // trigger reflow
+                heroTitle.classList.add('hero-content-anim');
+
+                // Fade in
+                heroBg.style.opacity = 0.6; // Opacidade base da imagem
+                heroBg.style.transform = 'scale(1.0)';
+                
+                // Slight zoom effect start
+                setTimeout(() => {
+                    heroBg.style.transform = 'scale(1.1)';
+                }, 50);
+
+            }, 800);
+        }
+
+        // --- RENDERIZAÇÃO ---
 
         function renderHero() {
+            // Pega o primeiro curso trending para começar
+            const trending = COURSES.filter(c => c.isTrending);
+            const course = trending[0]; 
+            currentHeroIndex = 0;
+
+            // Inicia rotação após renderizar
+            setTimeout(startHeroRotation, 100);
+
             return `
-            <div class="relative h-[85vh] w-full text-white overflow-hidden flex items-center">
-                <div class="absolute inset-0 z-0 overflow-hidden">
-                    <!-- O foco do astronauta está no canto direito da imagem de fundo -->
-                    <img src="${HERO_IMAGE_URL}" class="w-full h-full object-cover animate-slowZoom scale-110" style="object-position: right center;">
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/60 to-transparent"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
+            <div class="relative h-[90vh] w-full bg-black overflow-hidden group">
+                <!-- Background Image Layer -->
+                <div class="absolute inset-0 w-full h-full">
+                    <img id="hero-bg-img" src="${course.image}" alt="Featured" class="w-full h-full object-cover opacity-60 transition-all duration-[800ms] ease-in-out transform scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#141414] via-[#141414]/20 to-transparent"></div>
                 </div>
-                <div class="relative z-10 px-4 md:px-12 max-w-3xl space-y-6 animate-slideUp">
-                    <div class="flex items-center gap-2">
-                        <span class="w-8 h-[2px] bg-blue-500"></span>
-                        <span class="text-blue-500 font-bold tracking-widest uppercase text-xs">Futuro do Aprendizado</span>
-                    </div>
-                    <h1 class="text-4xl md:text-7xl font-bold leading-tight tracking-tighter">Alcance as Estrelas na sua Carreira.</h1>
-                    <p class="text-lg text-gray-300 max-w-xl leading-relaxed">Plataforma de ensino corporativo com trilhas gamificadas e certificados de alto impacto para o mercado global.</p>
-                    <div class="flex flex-wrap gap-4 pt-4">
-                        <button onclick="router('courses')" class="px-8 py-3 bg-blue-600 text-white rounded font-bold hover:bg-blue-700 transition flex items-center gap-2 shadow-lg shadow-blue-900/20">
-                            <i data-lucide="play" class="w-4 h-4 fill-current"></i> Iniciar Jornada
-                        </button>
-                        <button onclick="router('admin')" class="px-8 py-3 glass text-white rounded font-bold hover:bg-white/10 transition">Meu Dashboard</button>
-                    </div>
-                </div>
-            </div>`;
-        }
 
-        function renderHomeDashboard() {
-            const continuing = COURSES.filter(c => c.progress > 0 && c.progress < 100);
-            return `
-            <div class="relative z-10 -mt-32 space-y-16 pb-20 px-4 md:px-12">
-                <!-- Seção Continue de onde parou -->
-                <section>
-                    <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                        <i data-lucide="history" class="w-5 h-5 text-blue-500"></i> Continue Assistindo
-                    </h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${continuing.map(c => `
-                            <div onclick="openModal(${c.id})" class="glass p-4 rounded-xl flex gap-4 card-hover cursor-pointer group">
-                                <div class="w-24 h-16 rounded overflow-hidden flex-shrink-0">
-                                    <img src="${c.image}" class="w-full h-full object-cover">
-                                </div>
-                                <div class="flex-grow min-w-0">
-                                    <h4 class="text-sm font-bold truncate">${c.title}</h4>
-                                    <div class="mt-2 w-full bg-white/5 h-1 rounded-full overflow-hidden">
-                                        <div class="bg-blue-500 h-full" style="width: ${c.progress}%"></div>
-                                    </div>
-                                    <p class="text-[10px] text-gray-500 mt-1 font-bold uppercase">${c.progress}% completo</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <!-- Categorias Moodle Style -->
-                <section>
-                    <h2 class="text-xl font-bold mb-6">Explorar por Área</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        ${CATEGORIES.map(cat => `
-                            <div onclick="router('courses', '${cat.id}')" class="glass p-6 rounded-2xl text-center card-hover cursor-pointer space-y-3">
-                                <div class="w-12 h-12 bg-blue-600/10 rounded-xl flex items-center justify-center mx-auto text-blue-500">
-                                    <i data-lucide="${cat.icon}" class="w-6 h-6"></i>
-                                </div>
-                                <h3 class="text-sm font-bold">${cat.title}</h3>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-
-                <!-- Cursos em Alta -->
-                <section>
-                    <h2 class="text-xl font-bold mb-6">Recomendados para Você</h2>
-                    <div class="flex gap-6 overflow-x-auto scrollbar-hide pb-4">
-                        ${COURSES.map(c => `
-                            <div onclick="openModal(${c.id})" class="flex-none w-[280px] md:w-[320px] glass rounded-2xl overflow-hidden card-hover cursor-pointer group">
-                                <div class="aspect-video relative overflow-hidden">
-                                    <img src="${c.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                                    <div class="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur rounded text-[10px] font-bold">
-                                        ${c.duration}
-                                    </div>
-                                </div>
-                                <div class="p-5 space-y-2">
-                                    <span class="text-blue-500 text-[10px] font-black uppercase tracking-widest">${c.category}</span>
-                                    <h3 class="font-bold text-base line-clamp-1">${c.title}</h3>
-                                    <div class="flex items-center justify-between text-xs text-gray-500">
-                                        <span class="flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> 1.2k</span>
-                                        <span class="text-green-500 font-bold">${c.rating} Relevante</span>
-                                    </div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </section>
-            </div>`;
-        }
-
-        function renderCatalog(filter) {
-            const list = filter ? COURSES.filter(c => c.category === filter) : COURSES;
-            return `
-            <div class="pt-32 px-4 md:px-12 pb-20 animate-fadeIn">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
-                    <div>
-                        <h2 class="text-3xl md:text-5xl font-bold">Catálogo de Cursos</h2>
-                        <p class="text-gray-400 mt-2">Explore nossas trilhas de conhecimento especializado.</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="router('courses')" class="px-4 py-2 ${!filter ? 'bg-blue-600' : 'glass'} rounded-lg text-sm font-bold transition">Todos</button>
-                        ${CATEGORIES.map(cat => `
-                            <button onclick="router('courses', '${cat.id}')" class="px-4 py-2 ${filter === cat.id ? 'bg-blue-600' : 'glass'} rounded-lg text-sm font-bold transition">${cat.title}</button>
-                        `).join('')}
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    ${list.map(c => `
-                        <div onclick="openModal(${c.id})" class="glass rounded-2xl overflow-hidden card-hover cursor-pointer group border border-white/5">
-                            <div class="aspect-video relative overflow-hidden">
-                                <img src="${c.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                            </div>
-                            <div class="p-6 space-y-4">
-                                <div class="space-y-1">
-                                    <span class="text-blue-500 text-[10px] font-black uppercase tracking-widest">${c.category}</span>
-                                    <h3 class="font-bold text-lg leading-tight group-hover:text-blue-400 transition">${c.title}</h3>
-                                </div>
-                                <p class="text-sm text-gray-400 line-clamp-2">${c.description}</p>
-                                <div class="pt-4 flex items-center justify-between border-t border-white/5">
-                                    <span class="text-xs text-gray-500 font-medium">${c.lessons} aulas</span>
-                                    <button class="text-xs font-bold text-blue-500 flex items-center gap-1">Saiba mais <i data-lucide="chevron-right" class="w-3 h-3"></i></button>
-                                </div>
-                            </div>
+                <!-- Content Layer -->
+                <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-center px-4 md:px-12 z-10 pt-20">
+                    <div class="max-w-2xl space-y-6">
+                        <div class="flex items-center gap-2 text-blue-400 font-bold tracking-[0.2em] text-xs uppercase animate-slideUp">
+                            <span class="w-8 h-0.5 bg-blue-500 inline-block"></span>
+                            <span>Destaque da Semana</span>
                         </div>
-                    `).join('')}
-                </div>
-            </div>`;
-        }
-
-        function renderAdmin() {
-            return `
-            <div class="pt-32 px-4 md:px-12 pb-20 animate-fadeIn space-y-10 max-w-[1600px] mx-auto">
-                <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                    <div>
-                        <h2 class="text-3xl md:text-4xl font-black tracking-tight uppercase">Meu Dashboard</h2>
-                        <p class="text-gray-400 mt-1">Bem-vindo de volta, Gilnei. Veja seu progresso atual.</p>
-                    </div>
-                    <div class="flex gap-3">
-                        <button class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-sm font-bold rounded-xl flex items-center gap-2 shadow-xl shadow-blue-900/40 transition">
-                            <i data-lucide="plus" class="w-4 h-4"></i> Novo Objetivo
-                        </button>
-                    </div>
-                </header>
-
-                <!-- KPI Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    ${[
-                        { label: 'Cursos Concluídos', value: '12', trend: '+2', icon: 'check-circle', color: 'text-green-500' },
-                        { label: 'Horas de Estudo', value: '158h', trend: '+12h', icon: 'clock', color: 'text-blue-500' },
-                        { label: 'Pontos Ganhos', value: '4.8k', trend: '+850', icon: 'zap', color: 'text-yellow-500' },
-                        { label: 'Certificados', value: '08', trend: 'Nível 4', icon: 'award', color: 'text-purple-500' }
-                    ].map(card => `
-                        <div class="glass p-6 rounded-3xl border-l-4 border-l-transparent hover:border-l-blue-500 transition-all duration-300">
-                            <div class="flex justify-between items-start mb-4">
-                                <div class="p-3 bg-white/5 rounded-2xl ${card.color}">
-                                    <i data-lucide="${card.icon}" class="w-6 h-6"></i>
-                                </div>
-                                <span class="text-[10px] font-black ${card.trend.includes('+') ? 'text-green-500' : 'text-blue-400'} bg-white/5 px-3 py-1 rounded-full border border-white/5">
-                                    ${card.trend}
-                                </span>
-                            </div>
-                            <h3 class="text-gray-500 text-[10px] font-black uppercase tracking-widest">${card.label}</h3>
-                            <p class="text-3xl font-bold mt-1 tracking-tighter">${card.value}</p>
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Gráfico Visual de Progresso -->
-                    <div class="lg:col-span-2 glass p-8 rounded-3xl border border-white/5">
-                        <div class="flex justify-between items-center mb-10">
-                            <h3 class="text-lg font-bold">Consistência de Estudo</h3>
-                            <div class="flex gap-2">
-                                <div class="flex items-center gap-2 text-xs text-gray-500"><span class="w-3 h-3 bg-blue-600 rounded-full"></span> Este Mês</div>
-                            </div>
-                        </div>
-                        <div class="h-64 flex items-end gap-3">
-                            ${[30, 50, 40, 80, 65, 100, 85].map((h, i) => `
-                                <div class="flex-grow flex flex-col items-center group">
-                                    <div class="w-full bg-blue-600/10 rounded-xl relative group-hover:bg-blue-600/30 transition-all cursor-pointer" style="height: ${h}%">
-                                        <div class="absolute top-0 left-0 w-full h-1 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.6)] rounded-full"></div>
-                                    </div>
-                                    <span class="text-[10px] text-gray-500 mt-3 font-bold uppercase tracking-tighter">${['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'][i]}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <!-- Atividades Recentes -->
-                    <div class="glass p-8 rounded-3xl border border-white/5">
-                        <h3 class="text-lg font-bold mb-8">Últimas Conquistas</h3>
-                        <div class="space-y-8">
-                            ${[
-                                { title: 'Mestre do React', desc: 'Assistiu 5 aulas seguidas', time: '1h atrás', icon: 'zap' },
-                                { title: 'Avaliação 10', desc: 'Teste de UX Design concluído', time: 'Ontem', icon: 'star' },
-                                { title: 'Networking', desc: 'Comentou em 3 fóruns', time: '2 dias', icon: 'message-square' }
-                            ].map(item => `
-                                <div class="flex gap-5 items-start">
-                                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-blue-500 flex-shrink-0">
-                                        <i data-lucide="${item.icon}" class="w-5 h-5"></i>
-                                    </div>
-                                    <div class="flex-grow">
-                                        <p class="text-sm font-bold text-white leading-none">${item.title}</p>
-                                        <p class="text-xs text-gray-500 mt-1">${item.desc}</p>
-                                        <p class="text-[10px] text-gray-600 uppercase font-black mt-2">${item.time}</p>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        }
-
-        function renderCertificates() {
-            return `
-            <div class="pt-32 px-4 md:px-12 pb-20 animate-fadeIn text-center max-w-2xl mx-auto space-y-6">
-                <div class="w-20 h-20 bg-blue-600/10 rounded-full flex items-center justify-center mx-auto text-blue-500">
-                    <i data-lucide="award" class="w-10 h-10"></i>
-                </div>
-                <h2 class="text-4xl font-black">Meus Certificados</h2>
-                <p class="text-gray-400">Complete seus cursos para desbloquear certificações oficiais válidas em todo o território nacional.</p>
-                <div class="pt-10">
-                    <div class="glass p-10 rounded-3xl border-2 border-dashed border-white/10">
-                        <p class="text-sm text-gray-500">Nenhum certificado emitido recentemente.</p>
-                        <button onclick="router('courses')" class="mt-6 px-6 py-2 bg-white text-black text-sm font-bold rounded-full hover:bg-blue-600 hover:text-white transition">Ir para Cursos</button>
-                    </div>
-                </div>
-            </div>`;
-        }
-
-        function openModal(id) {
-            const c = COURSES.find(x => x.id === id);
-            document.getElementById('modal-content').innerHTML = `
-                <div class="flex flex-col lg:flex-row">
-                    <!-- Video Area -->
-                    <div class="flex-grow bg-black aspect-video lg:aspect-auto">
-                        <div class="relative h-full min-h-[300px] flex items-center justify-center">
-                            <img src="${c.image}" class="absolute inset-0 w-full h-full object-cover opacity-40">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
-                            <button class="relative z-10 w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center hover:scale-110 transition shadow-2xl shadow-blue-600/40">
-                                <i data-lucide="play" class="w-8 h-8 fill-current ml-1"></i>
+                        
+                        <h1 id="hero-title" class="text-5xl md:text-7xl font-black leading-tight drop-shadow-2xl hero-content-anim text-white">
+                            ${course.title}
+                        </h1>
+                        
+                        <p id="hero-desc" class="text-lg text-gray-200 drop-shadow-md max-w-xl line-clamp-3 leading-relaxed hero-content-anim font-light" style="animation-delay: 0.1s">
+                            ${course.description}
+                        </p>
+                        
+                        <div class="flex items-center gap-4 mt-8 hero-content-anim" style="animation-delay: 0.2s">
+                            <button id="hero-play-btn" onclick="openModal(${course.id})" class="flex items-center gap-3 px-8 py-4 bg-blue-600 text-white hover:bg-blue-700 rounded font-bold transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-blue-600/30 group/btn">
+                                <i data-lucide="play" class="w-6 h-6 fill-current"></i>
+                                <span class="group-hover/btn:translate-x-1 transition-transform">Assistir Agora</span>
+                            </button>
+                            <button id="hero-info-btn" onclick="openModal(${course.id})" class="flex items-center gap-3 px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded font-bold backdrop-blur-md transition-all transform hover:scale-105 border border-white/10">
+                                <i data-lucide="info" class="w-6 h-6"></i>
+                                Mais Info
                             </button>
                         </div>
                     </div>
-                    <!-- Info Area -->
-                    <div class="w-full lg:w-[400px] p-8 space-y-8 bg-[#0a0a0a] border-l border-white/5">
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span class="px-3 py-1 bg-blue-600/10 text-blue-500 rounded-full text-[10px] font-black uppercase tracking-widest">${c.category}</span>
-                                <span class="text-gray-500 text-xs">${c.duration}</span>
-                            </div>
-                            <h2 class="text-3xl font-bold tracking-tight">${c.title}</h2>
-                            <p class="text-gray-400 text-sm leading-relaxed">${c.description}</p>
-                        </div>
+                </div>
+                
+                <!-- Progress Indicator (Visual only) -->
+                <div class="absolute bottom-10 right-12 flex gap-2">
+                     <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+                     <div class="w-2 h-2 rounded-full bg-gray-600"></div>
+                     <div class="w-2 h-2 rounded-full bg-gray-600"></div>
+                </div>
+            </div>
+            `;
+        }
 
-                        <div class="space-y-4">
-                            <h4 class="text-xs font-black uppercase text-gray-500 tracking-widest">Seu Progresso</h4>
-                            <div class="space-y-2">
-                                <div class="flex justify-between text-xs font-bold">
-                                    <span>Aula 08/24</span>
-                                    <span class="text-blue-500">${c.progress}%</span>
-                                </div>
-                                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
-                                    <div class="bg-blue-500 h-full" style="width: ${c.progress}%"></div>
-                                </div>
-                            </div>
-                        </div>
+        function createCourseCard(course) {
+            return `
+            <div onclick="openModal(${course.id})" class="course-card group relative flex-none w-[200px] md:w-[280px] aspect-video bg-gray-800 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:z-20 hover:scale-110 hover:shadow-2xl hover:shadow-black/50 border border-gray-800 hover:border-blue-500/50">
+                <img src="${course.image}" loading="lazy" alt="${course.title}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-transform duration-500">
+                
+                <!-- Progress Bar -->
+                ${course.progress > 0 ? `
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-gray-700 z-10">
+                    <div class="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.8)]" style="width: ${course.progress}%"></div>
+                </div>` : ''}
 
-                        <div class="flex gap-4">
-                            <button class="flex-grow py-4 bg-white text-black font-bold rounded-2xl hover:bg-blue-600 hover:text-white transition">RETOMAR AULA</button>
-                            <button class="w-14 h-14 glass flex items-center justify-center rounded-2xl hover:text-blue-500 transition"><i data-lucide="bookmark" class="w-5 h-5"></i></button>
+                <!-- Hover Content -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <h4 class="text-white font-bold text-sm mb-2 drop-shadow-md">${course.title}</h4>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-xs font-semibold">
+                            <span class="text-green-400">${course.rating}</span>
+                            <span class="text-gray-400 border border-gray-600 px-1 rounded">HD</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-blue-600 hover:text-white transition shadow-lg transform hover:scale-110">
+                                <i data-lucide="play" class="w-3 h-3 fill-current ml-0.5"></i>
+                            </div>
+                            <div onclick="event.stopPropagation(); showDemoToast('Lista indisponível.')" class="w-8 h-8 rounded-full border border-gray-400 text-white flex items-center justify-center hover:bg-gray-800 hover:border-white transition transform hover:scale-110">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                            </div>
                         </div>
                     </div>
-                </div>`;
-            document.getElementById('course-modal').classList.remove('hidden');
-            document.getElementById('course-modal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
+                     <div class="mt-2 text-[10px] text-gray-400 line-clamp-1">
+                        ${course.category} • ${course.duration}
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        function renderRows() {
+            let html = '<div class="relative z-20 -mt-24 md:-mt-40 space-y-8 pb-10">';
+            
+            CATEGORIES.forEach((cat, index) => {
+                let filteredCourses = [];
+                if (cat.id === 'continue') filteredCourses = COURSES.filter(c => c.progress > 0);
+                else if (cat.id === 'trending') filteredCourses = COURSES.filter(c => c.isTrending);
+                else filteredCourses = COURSES.filter(c => c.category === cat.id || (cat.id === 'tech' && c.category === 'tech'));
+
+                if (filteredCourses.length > 0) {
+                    html += `
+                    <div class="mb-2 relative group/row px-4 md:px-12 space-y-3">
+                        <h2 class="text-lg md:text-xl font-bold text-gray-200 hover:text-white cursor-pointer transition inline-flex items-center gap-2 group-hover/row:text-blue-400">
+                            ${cat.title} 
+                            <span class="text-xs text-blue-500 opacity-0 group-hover/row:opacity-100 transition-opacity font-normal ml-2">Ver tudo ></span>
+                        </h2>
+                        
+                        <div class="relative group">
+                            <!-- Left Arrow -->
+                            <div onclick="scrollRow('row-${index}', 'left')" class="absolute -left-4 md:left-0 top-0 bottom-0 z-30 m-auto h-full w-12 flex items-center justify-center cursor-pointer bg-black/50 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80 hover:scale-110 rounded-r-lg">
+                                <i data-lucide="chevron-left" class="w-8 h-8"></i>
+                            </div>
+                            
+                            <!-- Scroll Container -->
+                            <div id="row-${index}" class="flex gap-4 overflow-x-auto scrollbar-hide pb-8 pt-4 px-1 scroll-smooth snap-x">
+                                ${filteredCourses.map(course => createCourseCard(course)).join('')}
+                            </div>
+
+                            <!-- Right Arrow -->
+                            <div onclick="scrollRow('row-${index}', 'right')" class="absolute -right-4 md:right-0 top-0 bottom-0 z-30 m-auto h-full w-12 flex items-center justify-center cursor-pointer bg-black/50 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80 hover:scale-110 rounded-l-lg">
+                                <i data-lucide="chevron-right" class="w-8 h-8"></i>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                }
+            });
+            html += '</div>';
+            return html;
+        }
+
+        // --- OUTRAS TELAS ---
+        function renderAdmin() {
+            if(heroInterval) clearInterval(heroInterval);
+            return `
+            <div class="pt-24 px-4 md:px-12 pb-12 animate-fadeIn text-white max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 border-b border-gray-800 pb-6 gap-4">
+                    <div>
+                        <h2 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600 mb-2">Gestão de Equipes</h2>
+                        <p class="text-gray-400">Visão geral de desempenho e engajamento corporativo</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <button onclick="showDemoToast('Exportação indisponível')" class="flex items-center gap-2 px-5 py-2.5 bg-[#202020] hover:bg-[#303030] rounded-lg border border-gray-700 text-sm transition">
+                            <i data-lucide="download" class="w-4 h-4"></i> Relatório
+                        </button>
+                        <button onclick="showDemoToast('Cadastro indisponível')" class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold text-sm transition shadow-lg shadow-blue-900/20">
+                            <i data-lucide="user-plus" class="w-4 h-4"></i> Convidar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                    <div class="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 hover:border-blue-600/50 transition duration-300 hover:bg-[#202020] group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-blue-600/10 rounded-full blur-2xl -mr-10 -mt-10 transition group-hover:bg-blue-600/20"></div>
+                        <div class="flex justify-between items-start mb-4 relative z-10">
+                            <div class="p-3 rounded-lg bg-blue-500/10 text-blue-500 group-hover:scale-110 transition-transform"><i data-lucide="users" class="w-6 h-6"></i></div>
+                            <span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">+12%</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1 relative z-10">1,234</h3>
+                        <p class="text-gray-500 text-sm relative z-10">Usuários Ativos</p>
+                    </div>
+                     <div class="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 hover:border-purple-600/50 transition duration-300 hover:bg-[#202020] group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-purple-600/10 rounded-full blur-2xl -mr-10 -mt-10 transition group-hover:bg-purple-600/20"></div>
+                        <div class="flex justify-between items-start mb-4 relative z-10">
+                            <div class="p-3 rounded-lg bg-purple-500/10 text-purple-500 group-hover:scale-110 transition-transform"><i data-lucide="clock" class="w-6 h-6"></i></div>
+                            <span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">+5%</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1 relative z-10">45.2k</h3>
+                        <p class="text-gray-500 text-sm relative z-10">Horas Assistidas</p>
+                    </div>
+                     <div class="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 hover:border-green-600/50 transition duration-300 hover:bg-[#202020] group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-green-600/10 rounded-full blur-2xl -mr-10 -mt-10 transition group-hover:bg-green-600/20"></div>
+                        <div class="flex justify-between items-start mb-4 relative z-10">
+                            <div class="p-3 rounded-lg bg-green-500/10 text-green-500 group-hover:scale-110 transition-transform"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
+                            <span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded-full">+22%</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1 relative z-10">892</h3>
+                        <p class="text-gray-500 text-sm relative z-10">Conclusões</p>
+                    </div>
+                     <div class="bg-[#1a1a1a] p-6 rounded-xl border border-gray-800 hover:border-orange-600/50 transition duration-300 hover:bg-[#202020] group relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-orange-600/10 rounded-full blur-2xl -mr-10 -mt-10 transition group-hover:bg-orange-600/20"></div>
+                        <div class="flex justify-between items-start mb-4 relative z-10">
+                            <div class="p-3 rounded-lg bg-orange-500/10 text-orange-500 group-hover:scale-110 transition-transform"><i data-lucide="activity" class="w-6 h-6"></i></div>
+                            <span class="text-xs font-bold text-red-500 bg-red-500/10 px-2 py-1 rounded-full">-2%</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-1 relative z-10">88%</h3>
+                        <p class="text-gray-500 text-sm relative z-10">Engajamento Médio</p>
+                    </div>
+                </div>
+
+                <!-- Lista de Funcionários -->
+                <div class="bg-[#1a1a1a] rounded-xl border border-gray-800 overflow-hidden shadow-2xl">
+                    <div class="p-6 border-b border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h3 class="font-bold text-lg flex items-center gap-2"><i data-lucide="list" class="w-5 h-5 text-blue-500"></i> Colaboradores Recentes</h3>
+                        <div class="relative w-full md:w-auto">
+                            <input type="text" placeholder="Buscar colaborador..." class="bg-[#252525] border border-gray-700 rounded-lg px-4 py-2 pl-10 text-sm text-white focus:outline-none focus:border-blue-500 w-full md:w-64 transition-all focus:w-full md:focus:w-80">
+                             <i data-lucide="search" class="w-4 h-4 text-gray-500 absolute left-3 top-2.5"></i>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-400">
+                            <thead class="bg-[#202020] text-gray-200 uppercase text-xs font-bold tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4">Nome</th>
+                                    <th class="px-6 py-4">Cargo</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4">Último Acesso</th>
+                                    <th class="px-6 py-4 text-right">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800">
+                                ${EMPLOYEES.map(emp => `
+                                    <tr class="hover:bg-gray-800/50 transition duration-150">
+                                        <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-gray-700 to-gray-600 flex items-center justify-center font-bold text-xs">
+                                                ${emp.name.substring(0,2).toUpperCase()}
+                                            </div>
+                                            ${emp.name}
+                                        </td>
+                                        <td class="px-6 py-4">${emp.role}</td>
+                                        <td class="px-6 py-4">
+                                            <span class="px-2 py-1 rounded-full text-[10px] uppercase font-bold tracking-wide border ${emp.status === 'Ativo' ? 'bg-green-900/20 text-green-400 border-green-900' : 'bg-red-900/20 text-red-400 border-red-900'}">
+                                                ${emp.status}
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4">Hoje, 14:30</td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button onclick="showDemoToast('Acesso negado')" class="p-2 hover:bg-white/10 rounded-full transition"><i data-lucide="more-horizontal" class="w-4 h-4"></i></button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        function renderCertificates() {
+            if(heroInterval) clearInterval(heroInterval);
+            return `
+            <div class="pt-32 px-4 md:px-12 pb-12 min-h-screen text-white animate-fadeIn max-w-7xl mx-auto">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-1 bg-blue-600 h-8 rounded-full"></div>
+                    <h2 class="text-3xl font-bold">Meus Certificados</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    ${[1, 2].map(i => `
+                    <div class="bg-[#1a1a1a] border border-gray-800 p-8 rounded-xl relative overflow-hidden hover:border-blue-500 transition-all duration-300 group hover:-translate-y-1 shadow-lg hover:shadow-blue-900/20">
+                        <div class="absolute top-0 right-0 bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-bl-lg">VERIFICADO</div>
+                        <i data-lucide="award" class="w-16 h-16 text-gray-700 mb-6 group-hover:text-blue-500 transition-colors duration-300"></i>
+                        <h3 class="text-xl font-bold mb-2 text-white">Masterclass React & Redux</h3>
+                        <p class="text-sm text-gray-500 mb-8">Emitido em 15 Jan 2024 • ID: BF-${Math.floor(Math.random()*10000)}</p>
+                        <button onclick="showDemoToast('Download simulado.')" class="w-full py-3 bg-white/5 hover:bg-white hover:text-black border border-white/10 hover:border-white rounded-lg font-bold transition flex items-center justify-center gap-2 group/btn">
+                            <i data-lucide="download" class="w-4 h-4 group-hover/btn:animate-bounce"></i> Baixar PDF
+                        </button>
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-600/10 rounded-full blur-3xl group-hover:bg-blue-600/30 transition duration-500 pointer-events-none"></div>
+                    </div>
+                    `).join('')}
+                </div>
+            </div>
+            `;
+        }
+
+        function renderAllCourses() {
+            if(heroInterval) clearInterval(heroInterval);
+            return `
+            <div class="pt-32 px-4 md:px-12 pb-12 min-h-screen text-white animate-fadeIn">
+                <div class="flex items-center justify-between mb-8 max-w-7xl mx-auto">
+                    <h2 class="text-3xl font-bold flex items-center gap-3">
+                        <i data-lucide="grid" class="w-6 h-6 text-blue-500"></i> Catálogo Completo
+                    </h2>
+                    <div class="flex gap-2">
+                         <button class="p-2 bg-gray-800 rounded hover:bg-gray-700 transition"><i data-lucide="filter" class="w-4 h-4"></i></button>
+                         <button class="p-2 bg-gray-800 rounded hover:bg-gray-700 transition"><i data-lucide="arrow-down-up" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+                    ${COURSES.map(course => `
+                        <div onclick="openModal(${course.id})" class="group relative aspect-[3/4] bg-gray-800 rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 z-0 hover:z-20 hover:shadow-2xl hover:shadow-blue-900/30 ring-1 ring-white/10 hover:ring-blue-500/50">
+                            <img src="${course.image}" loading="lazy" alt="${course.title}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                            
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition"></div>
+                            
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300 transform scale-50 group-hover:scale-100">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg text-white">
+                                    <i data-lucide="play" class="w-5 h-5 fill-current ml-1"></i>
+                                </div>
+                            </div>
+
+                            <div class="absolute bottom-0 left-0 w-full p-4 transform translate-y-2 group-hover:translate-y-0 transition duration-300">
+                                <span class="text-[10px] font-bold text-blue-400 uppercase tracking-wider mb-1 block">${course.category}</span>
+                                <p class="text-sm font-bold text-white leading-tight mb-1">${course.title}</p>
+                                <div class="flex items-center gap-2 text-[10px] text-gray-300 opacity-0 group-hover:opacity-100 transition delay-100">
+                                    <span>${course.rating}</span> • <span>${course.duration}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+            `;
+        }
+
+        // --- SISTEMA DE NAVEGAÇÃO ---
+        function router(page) {
+            const app = document.getElementById('app-content');
+            const navLinks = document.querySelectorAll('#nav-links li');
+            
+            navLinks.forEach(link => {
+                if(link.dataset.page === page) {
+                    link.classList.add('text-white', 'font-bold');
+                    link.classList.remove('text-gray-300');
+                } else {
+                    link.classList.remove('text-white', 'font-bold');
+                    link.classList.add('text-gray-300');
+                }
+            });
+
+            window.scrollTo(0, 0);
+
+            if (page === 'home') {
+                app.innerHTML = renderHero() + renderRows();
+            } else if (page === 'admin') {
+                app.innerHTML = renderAdmin();
+            } else if (page === 'certificates') {
+                app.innerHTML = renderCertificates();
+            } else if (page === 'courses') {
+                app.innerHTML = renderAllCourses();
+            }
+
             lucide.createIcons();
         }
 
-        function closeModal() {
-            document.getElementById('course-modal').classList.add('hidden');
-            document.getElementById('course-modal').classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('mobile-nav').classList.toggle('hidden');
+        // --- INTERAÇÕES ---
+        function scrollRow(elementId, direction) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const scrollAmount = window.innerWidth * 0.7; // Scroll 70% of screen
+                element.scrollBy({
+                    left: direction === 'left' ? -scrollAmount : scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
         }
 
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
-            nav.classList.toggle('bg-black', window.scrollY > 50);
-            nav.classList.toggle('py-2', window.scrollY > 50);
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-[#141414]', 'shadow-lg', 'border-b', 'border-gray-800');
+                nav.classList.remove('bg-gradient-to-b');
+            } else {
+                nav.classList.remove('bg-[#141414]', 'shadow-lg', 'border-b', 'border-gray-800');
+                nav.classList.add('bg-gradient-to-b');
+            }
         });
 
-        document.addEventListener('DOMContentLoaded', () => router('home'));
+        function openModal(courseId) {
+            const course = COURSES.find(c => c.id === courseId);
+            if (!course) return;
+
+            const modal = document.getElementById('course-modal');
+            const panel = document.getElementById('modal-panel');
+            const content = document.getElementById('modal-content');
+
+            content.innerHTML = `
+                <div class="relative h-[450px] w-full group">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#181818] via-transparent to-transparent z-10"></div>
+                    <img src="${course.image}" alt="${course.title}" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 left-0 w-full p-8 md:p-12 z-20">
+                        <h2 class="text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-lg tracking-tight">${course.title}</h2>
+                        <div class="flex items-center gap-4 mb-6">
+                            <button onclick="showDemoToast('Vídeo indisponível na demo.')" class="flex items-center gap-2 px-8 py-3 bg-white text-black font-bold rounded hover:bg-blue-600 hover:text-white transition transform hover:scale-105">
+                                <i data-lucide="play" class="w-5 h-5 fill-current"></i> Assistir
+                            </button>
+                            <button onclick="showDemoToast('Adicionado à lista (Visual).')" class="p-3 border-2 border-gray-500 rounded-full text-gray-300 hover:border-white hover:text-white transition hover:scale-110 bg-black/20 backdrop-blur">
+                                <i data-lucide="plus" class="w-5 h-5"></i>
+                            </button>
+                            <button class="p-3 border-2 border-gray-500 rounded-full text-gray-300 hover:border-white hover:text-white transition hover:scale-110 bg-black/20 backdrop-blur">
+                                <i data-lucide="thumbs-up" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-8 md:p-12 grid grid-cols-1 md:grid-cols-3 gap-10 text-white">
+                    <div class="md:col-span-2 space-y-8">
+                        <div class="flex items-center gap-4 text-sm font-semibold">
+                            <span class="text-green-400 font-bold tracking-wider">${course.rating} Relevante</span>
+                            <span class="text-gray-400">${course.duration}</span>
+                            <span class="border border-gray-500 px-1.5 py-0.5 rounded text-[10px] text-gray-400">HD</span>
+                            <span class="border border-gray-500 px-1.5 py-0.5 rounded text-[10px] text-gray-400">5.1</span>
+                        </div>
+                        <p class="text-lg text-gray-300 leading-relaxed font-light">${course.description} Aprenda com os melhores especialistas do mercado em um ambiente imersivo e prático.</p>
+                        
+                        <div class="border-t border-gray-800 pt-8">
+                            <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-white"><i data-lucide="list-video" class="w-6 h-6 text-blue-500"></i> Episódios</h3>
+                            <div class="space-y-4">
+                                ${[1, 2, 3].map(i => `
+                                <div class="flex items-center justify-between p-4 rounded-lg hover:bg-[#252525] transition cursor-pointer group/ep" onclick="showDemoToast('Episódio ${i} bloqueado.')">
+                                    <div class="flex items-center gap-4 text-gray-400 group-hover/ep:text-white">
+                                        <span class="text-xl font-bold text-gray-600 group-hover/ep:text-white w-6">${i}</span>
+                                        <div class="w-32 h-18 bg-gray-800 rounded overflow-hidden relative shadow-lg">
+                                            <img src="${course.image}" class="w-full h-full object-cover opacity-60 group-hover/ep:opacity-100 transition">
+                                            <i data-lucide="play-circle" class="absolute inset-0 m-auto w-8 h-8 text-white opacity-0 group-hover/ep:opacity-100 transition transform scale-75 group-hover/ep:scale-100"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-sm text-gray-200 group-hover/ep:text-white">Aula ${i}: Fundamentos</h4>
+                                            <p class="text-xs text-gray-500 mt-1 line-clamp-1">Uma breve introdução sobre os conceitos chaves.</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-gray-500 font-mono">24m</span>
+                                </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6 text-sm text-gray-400">
+                        <div>
+                            <span class="block text-gray-500 mb-1 text-xs uppercase tracking-wide">Instrutor</span>
+                            <span class="text-white hover:underline cursor-pointer">Dr. Roberto Silva, PhD</span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-500 mb-1 text-xs uppercase tracking-wide">Categoria</span>
+                            <span class="text-white capitalize px-2 py-1 bg-gray-800 rounded inline-block">${course.category}</span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-500 mb-1 text-xs uppercase tracking-wide">Tags</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs border border-gray-700 px-2 py-1 rounded-full">Carreira</span>
+                                <span class="text-xs border border-gray-700 px-2 py-1 rounded-full">Inovação</span>
+                                <span class="text-xs border border-gray-700 px-2 py-1 rounded-full">2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden', 'pointer-events-none', 'opacity-0');
+            modal.classList.add('flex', 'opacity-100');
+            setTimeout(() => {
+                panel.classList.remove('scale-95');
+                panel.classList.add('scale-100');
+            }, 10);
+            
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('course-modal');
+            const panel = document.getElementById('modal-panel');
+            
+            panel.classList.remove('scale-100');
+            panel.classList.add('scale-95');
+            
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden', 'pointer-events-none');
+            }, 300);
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            router('home');
+        });
+
     </script>
 </body>
 </html>
